@@ -3,6 +3,7 @@ import Slide from "react-reveal/Slide";
 
 import SvgIcon from "../../UI/SvgIcon";
 import Button from "../../UI/Button";
+//import * as images from "../../../../assets/frontOffice/img"
 
 import * as S from "./styles";
 

@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { lazy, Suspense } from "react";
 import { Switch, Route ,Redirect} from "react-router-dom";
-import "antd/dist/antd.css";
+
 
 function App() {
   return (

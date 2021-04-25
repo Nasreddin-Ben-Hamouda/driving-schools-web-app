@@ -6,7 +6,7 @@ import AboutContent from "../../content/frontOffice/AboutContent.json";
 import MissionContent from "../../content/frontOffice/MissionContent.json";
 import ProductContent from "../../content/frontOffice/ProductContent.json";
 import ContactContent from "../../content/frontOffice/ContactContent.json";
-
+import "antd/dist/antd.css";
 const ContactFrom = lazy(() => import("../../components/frontOffice/ContactForm"));
 const ContentBlock = lazy(() => import("../../components/frontOffice/ContentBlock"));
 const MiddleBlock = lazy(() => import("../../components/frontOffice/MiddleBlock"));
