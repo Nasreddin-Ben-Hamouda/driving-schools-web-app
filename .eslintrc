@@ -1,4 +1,5 @@
 {
+  "parser": "babel-eslint",
   "plugins": ["disable"],
   "processor": "disable/disable"
 }
