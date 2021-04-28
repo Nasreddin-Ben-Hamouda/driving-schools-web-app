@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+//import './App.css';
 import { lazy, Suspense } from "react";
 import { Switch, Route ,Redirect} from "react-router-dom";
 
@@ -13,7 +13,7 @@ function App() {
                   exact
                   component={lazy(() => import(`./containers/frontOffice/Home`))}
               />
-              <Redirect to={"/"}/>
+              <Route component={lazy(()=>import(`./containers/common/NotFound/NotFound`))}/>
           </Switch>
       </Suspense>
   );

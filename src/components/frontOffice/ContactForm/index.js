@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import { Row, Col } from "antd";
-import Zoom from "react-reveal/Zoom";
+import {Zoom} from "react-awesome-reveal";
 
 import useForm from "./useForm";
 import validate from "./validationRules";

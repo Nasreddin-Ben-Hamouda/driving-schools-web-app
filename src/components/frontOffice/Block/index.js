@@ -1,12 +1,12 @@
 
-import Fade from "react-reveal/Fade";
+import {Fade} from "react-awesome-reveal"
 
 import * as S from "./styles";
 
 const Block = ({ title, content}) => {
   return (
     <S.Container>
-      <Fade left>
+      <Fade direction="left">
         <h6>{title}</h6>
         <S.TextWrapper>
           <S.Content>{content}</S.Content>

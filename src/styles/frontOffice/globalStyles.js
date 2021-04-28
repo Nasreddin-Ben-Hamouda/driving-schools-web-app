@@ -7,7 +7,9 @@ const Styles = createGlobalStyle`
     a {
         font-family: 'Ubuntu', sans-serif;
     }
-
+    .ant-modal-content{
+      border-radius: 10px;
+    }
 
     body {
         margin:0;

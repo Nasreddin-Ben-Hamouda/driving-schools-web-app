@@ -1,5 +1,5 @@
 import { Row, Col } from "antd";
-import Slide from "react-reveal/Slide";
+import {Slide} from "react-awesome-reveal";
 
 import SvgIcon from "../../UI/SvgIcon";
 import Button from "../../UI/Button";
@@ -18,7 +18,7 @@ const RightBlock = ({ title, content, button, icon, id }) => {
     <S.RightBlockContainer>
       <Row type="flex" justify="space-between" align="middle" id={id}>
         <Col lg={11} md={11} sm={11} xs={24}>
-          <Slide left>
+          <Slide direction="left">
             <S.ContentWrapper>
               <h6>{title}</h6>
               <S.Content>{content}</S.Content>
@@ -42,7 +42,7 @@ const RightBlock = ({ title, content, button, icon, id }) => {
           </Slide>
         </Col>
         <Col lg={11} md={11} sm={12} xs={24}>
-          <Slide right>
+          <Slide direction="right">
             <SvgIcon
               src={icon}
               className="about-block-image"

@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import { Row, Col } from "antd";
-import Fade from "react-reveal/Fade";
+import {Fade} from "react-awesome-reveal";
 
 import * as S from "./styles";
 
@@ -16,7 +16,7 @@ const MiddleBlock = ({ title, content, button }) => {
   return (
     <S.MiddleBlock>
       <Row type="flex" justify="center" align="middle">
-        <Fade bottom>
+        <Fade direction="up">
           <S.ContentWrapper>
             <Col lg={24} md={24} sm={24} xs={24}>
               <h6>{title}</h6>
