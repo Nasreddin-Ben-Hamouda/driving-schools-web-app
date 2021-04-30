@@ -93,7 +93,7 @@ const Header = (props) => {
       <S.Container>
         <Row type="flex" justify="space-between" gutter={20}>
           <S.LogoContainer to="/" aria-label="homepage">
-            <SvgIcon src="logo.svg" />
+            <SvgIcon src="logo.png" width={'150'}  style={{marginTop:-12}} />
           </S.LogoContainer>
           <S.NotHidden>
             <MenuItem />
