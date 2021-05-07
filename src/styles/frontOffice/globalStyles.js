@@ -29,7 +29,7 @@ const Styles = createGlobalStyle`
     h3,
     h4,
     h5,
-    h6 {
+    h6,.customH {
         font-family: 'Ubuntu', sans-serif;
         color: #0a1f44;
         font-size: 2.575rem;

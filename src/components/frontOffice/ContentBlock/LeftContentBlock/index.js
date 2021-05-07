@@ -22,7 +22,7 @@ const LeftContentBlock = ({ icon, title, content, section, id }) => {
         <Col lg={11} md={11} sm={11} xs={24}>
           <Slide direction="right">
             <S.ContentWrapper>
-              <h6>{title}</h6>
+              <h6 className="customH">{title}</h6>
               <S.Content>{content}</S.Content>
               <S.ServiceWrapper>
                 <Row type="flex" justify="space-between">

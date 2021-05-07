@@ -5,10 +5,10 @@ import {
   Switch
 } from 'react-router-dom'
 import { CContainer, CFade } from '@coreui/react'
-const Dashboard = React.lazy(() => import('../../../views/backOffices/userOffice/Dashboard'));
+const Dashboard = React.lazy(() => import('../../../views/backOffices/managerOffice/Dashboard/Dashboard'));
 
 // routes config
-import routes from '../../../routes/backOffices/userOffice/routes'
+import routes from '../../../routes/backOffices/managerOffice/routes'
   
 const loading = (
   <div className="pt-3 text-center">

@@ -20,7 +20,7 @@ const RightBlock = ({ title, content, button, icon, id }) => {
         <Col lg={11} md={11} sm={11} xs={24}>
           <Slide direction="left">
             <S.ContentWrapper>
-              <h6>{title}</h6>
+              <h6 className="customH">{title}</h6>
               <S.Content>{content}</S.Content>
               <S.ButtonWrapper>
                 {button &&
