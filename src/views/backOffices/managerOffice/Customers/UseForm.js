@@ -66,7 +66,7 @@ const UseForm = ({onSubmit}) => {
                             </div>
                             <div className="form-group col-md-6">
                                 <label>Password</label>
-                                <input type="text" className="form-control"  style={errors.password?inputBorderErrorsStyle:null} {...register("password")}  placeholder={"Enter your password"}/>
+                                <input type="password" className="form-control"  style={errors.password?inputBorderErrorsStyle:null} {...register("password")}  placeholder={"Enter your password"}/>
                                 <p style={errorsStyle}>{errors.password?.message}</p>
                             </div>
                         </div>

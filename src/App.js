@@ -1,13 +1,16 @@
 import logo from './logo.svg';
 //import './App.css';
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { Switch, Route ,Redirect} from "react-router-dom";
+import {
+    CSpinner
+} from '@coreui/react'
 const TheLayout =lazy(() => import('./components/backOffices/managerOffice/TheLayout'));
 
 
 function App() {
   return (
-      <Suspense fallback={null}>
+      <Suspense fallback={<CSpinner color="info" />}>
           <Switch>
               <Route path="/companies/:id"  render={props => <TheLayout {...props}/>} />
               <Route
