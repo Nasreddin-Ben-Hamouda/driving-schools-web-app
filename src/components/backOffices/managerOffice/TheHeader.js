@@ -14,7 +14,7 @@ import {
 import CIcon from '@coreui/icons-react'
 
 // routes config
-import routes from '../../../routes/backOffices/userOffice/routes'
+import routes from '../../../routes/backOffices/managerOffice/routes'
 import * as actions from "../../../store/actions/backOffices/global"
 
 import { 

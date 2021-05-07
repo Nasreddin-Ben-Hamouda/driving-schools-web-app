@@ -1,6 +1,5 @@
 import React from 'react'
-import CIcon from '@coreui/icons-react'
-import {cilCalendar} from "@coreui/icons";
+
 
 
 export default (id)=>{
@@ -19,8 +18,8 @@ export default (id)=>{
     },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Companies',
-    to: `/companies/${id}/user-companies`,
+    name: 'Company',
+    to: `/companies/${id}/configuration`,
     icon:'cilBank' ,
 
   },

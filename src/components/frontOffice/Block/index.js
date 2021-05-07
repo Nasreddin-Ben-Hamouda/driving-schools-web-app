@@ -7,7 +7,7 @@ const Block = ({ title, content}) => {
   return (
     <S.Container>
       <Fade direction="left">
-        <h6>{title}</h6>
+        <h6 className="customH">{title}</h6>
         <S.TextWrapper>
           <S.Content>{content}</S.Content>
         </S.TextWrapper>
