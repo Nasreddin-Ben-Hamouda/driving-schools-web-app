@@ -12,27 +12,26 @@ import {
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import UseForm from "./UseForm";
 import UseFormUpdate from "./UseFormUpdate";
-import axios from "../../../../axios/subscription-service";
+import axios from "../../../../axios/scheduling-service";
 import cogoToast from "cogo-toast";
 import { Popconfirm } from 'antd';
 import "antd/dist/antd.css";
 const agencyId="606f0dc7e3bf6a72dd524d4f";
-const Customers = (props) => {
+const Monitors = (props) => {
 
-    const [clients, setClients] = useState(null);
+    const [monitors, setMonitors] = useState(null);
     const [details, setDetails] = useState([]);
     const [formUpdate, setFormUpdate] = useState(null);
     const [visible, setVisible] = useState(false);
     const [ loading,setLoading]=useState(false);
 
     useEffect(() => {
-        getAllCustomers()
+        getAllMonitors()
     }, []);
-    const getAllCustomers = () => {
-
-        axios.get('/client/' + agencyId)
+    const getAllMonitors = () => {
+        axios.get('/monitor/' + agencyId)
             .then((response) => {
-                setClients(response.data);
+                setMonitors(response.data);
             })
             .catch((error) => {
                 //all errors handled in withErrorHandler hoc component
@@ -58,12 +57,12 @@ const Customers = (props) => {
 
         {key: 'surname', label: "First Name", _style: {width: '20%'}},
         {key: 'name', label: "Last Name", _style: {width: '20%'}},
-        {key: 'email', _style: {width: '30%'}},
         {key: 'cin', _style: {width: '20%'}},
         {key: 'birthday', _style: {width: '20%'}},
         {key: 'phone', _style: {width: '20%'}},
         {key: 'address', _style: {width: '20%'}},
         {key: 'state', _style: {width: '20%'}},
+        {key: 'postalCode', _style: {width: '20%'}},
         {
             key: 'show_details',
             label: 'Actions',
@@ -72,24 +71,17 @@ const Customers = (props) => {
             filter: false
         }
     ]
+
     const getBadge = (state) => {
         switch (state) {
-            case 'READY':
+            case 'ACTIVE':
                 return 'success'
-            case 'LEARNING':
-                return 'success'
-            case 'INACTIVE':
+            case 'ABSENT':
                 return 'secondary'
-            case 'UNVERIFIED':
-                return 'warning'
-            case 'PROFILE_NOT_COMPLETED':
-                return 'warning'
             case 'SUSPENDED':
                 return 'danger'
             case 'RETIRED':
                 return 'danger'
-            case 'DRIVING':
-                return 'primary'
             default:
                 return 'primary'
         }
@@ -102,19 +94,15 @@ const Customers = (props) => {
             ...data,
             agency: agencyId
         }
-        axios.post('/client', data)
+        axios.post('/monitor', data)
             .then(() => {
                 setLoading(false)
-                cogoToast.success("Customer added successfully", {position: "top-right"})
+                cogoToast.success("Monitor added successfully", {position: "top-right"})
                 modalCloseHandle()
                 e.target.reset()
-                getAllCustomers()
+                getAllMonitors()
             })
             .catch((error) => {
-
-                if(error && error.response && error.response.status===300){
-                    console.log(error.response.data)
-                }
                 setLoading(false)
                 //all errors handled in withErrorHandler hoc component
             });
@@ -129,14 +117,15 @@ const Customers = (props) => {
         const id = data._id;
         delete data.password;
         delete data.state;
-        delete data.hasPack;
-        delete data._id
-        axios.put('/client/' + id, data)
+        delete data._id;
+        delete data.certification;
+        delete data.__v;
+        axios.put('/monitor/' + id, data)
             .then(() => {
                 setLoading(false)
-                cogoToast.success("Customer updated successfully", {position: "top-right"})
+                cogoToast.success("Monitor updated successfully", {position: "top-right"})
                 modalCloseHandle()
-                getAllCustomers()
+                getAllMonitors()
                 setDetails([])
 
             })
@@ -147,13 +136,13 @@ const Customers = (props) => {
     };
 
     const showUpdateForm = (id) => {
-        const index = clients.findIndex((client) => client._id === id);
-        const client={
-            ...clients[index],
-            birthday:clients[index].birthday.slice(0,10),
-            cinDate: clients[index].cinDate.slice(0,10)
+        const index = monitors.findIndex((monitor) => monitor._id === id);
+        const monitor={
+            ...monitors[index],
+            birthday:monitors[index].birthday.slice(0,10),
+            cinDate: monitors[index].cinDate.slice(0,10)
         }
-        setFormUpdate(client)
+        setFormUpdate(monitor)
         setVisible(true)
     }
 
@@ -162,10 +151,10 @@ const Customers = (props) => {
         const data={
             agency:agencyId
         }
-        axios.delete('/client/' + id,{data:data})
+        axios.delete('/monitor/' + id,{data:data})
             .then(() => {
-                cogoToast.success("Customer deleted successfully", {position: "top-right"})
-                getAllCustomers()
+                cogoToast.success("Monitor deleted successfully", {position: "top-right"})
+                getAllMonitors()
                 setDetails([])
             })
             .catch((error) => {
@@ -177,10 +166,10 @@ const Customers = (props) => {
         const data={
             agency:agencyId
         }
-        axios.put('/client/suspended/' + id,data)
+        axios.put('/monitor/suspended/' + id,data)
             .then(() => {
-                cogoToast.success("Customer suspended successfully", {position: "top-right"})
-                getAllCustomers()
+                cogoToast.success("Monitor suspended successfully", {position: "top-right"})
+                getAllMonitors()
                 setDetails([])
             })
             .catch((error) => {
@@ -194,11 +183,11 @@ const Customers = (props) => {
 
         <>
             {
-                !clients ? <CSpinner color="info" style={{marginLeft: "45%", marginTop: "15%"}}/>
+                !monitors ? <CSpinner color="info" style={{marginLeft: "45%", marginTop: "15%"}}/>
                     :
                     <>
                         <CModal show={visible} onClose={modalCloseHandle}>
-                            <CModalHeader closeButton> {!formUpdate ? "Add Customer" : "Update Customer"}</CModalHeader>
+                            <CModalHeader closeButton> {!formUpdate ? "Add Monitor" : "Update Monitor"}</CModalHeader>
                             <br/>
                             <CModalBody>
                                 {
@@ -217,7 +206,7 @@ const Customers = (props) => {
                             </CCardHeader>
                             <CCardBody>
                                 <CDataTable
-                                    items={clients}
+                                    items={monitors}
                                     fields={fields}
                                     columnFilter
                                     tableFilter
@@ -296,4 +285,4 @@ const Customers = (props) => {
     )
 }
 
-export default withErrorHandler(Customers,axios);
+export default withErrorHandler(Monitors,axios);

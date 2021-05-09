@@ -24,7 +24,7 @@ const schema = yup.object().shape({
     taxRegistrationDate:yup.string().required("tax registration date is a required field")
 
 });
-const UseForm = ({onSubmit,preloadedValues}) => {
+const UseForm = ({onSubmit,preloadedValues,loading}) => {
 
     const { register, handleSubmit, formState:{ errors } } = useForm({
         defaultValues:preloadedValues,
@@ -96,7 +96,14 @@ const UseForm = ({onSubmit,preloadedValues}) => {
                                 <p style={errorsStyle}>{errors.taxRegistrationDate?.message}</p>
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-primary col-md-1">Save</button>
+                        <button type="submit" className="btn btn-primary" disabled={loading} >Save
+                            {loading && (
+                                <CircularProgress style={{marginLeft:"10px",color:"white"}}
+
+                                                  size={20}
+                                />
+                            )}
+                        </button>
                     </form>
                 </CCardBody>
 
