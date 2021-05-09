@@ -12,27 +12,26 @@ import {
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import UseForm from "./UseForm";
 import UseFormUpdate from "./UseFormUpdate";
-import axios from "../../../../axios/subscription-service";
+import axios from "../../../../axios/scheduling-service";
 import cogoToast from "cogo-toast";
 import { Popconfirm } from 'antd';
 import "antd/dist/antd.css";
 const agencyId="606f0dc7e3bf6a72dd524d4f";
-const Customers = (props) => {
+const Cars = (props) => {
 
-    const [clients, setClients] = useState(null);
+    const [cars, setCars] = useState(null);
     const [details, setDetails] = useState([]);
     const [formUpdate, setFormUpdate] = useState(null);
     const [visible, setVisible] = useState(false);
     const [ loading,setLoading]=useState(false);
 
     useEffect(() => {
-        getAllCustomers()
+        getAllCars()
     }, []);
-    const getAllCustomers = () => {
-
-        axios.get('/client/' + agencyId)
+    const getAllCars = () => {
+        axios.get('/car/' + agencyId)
             .then((response) => {
-                setClients(response.data);
+                setCars(response.data);
             })
             .catch((error) => {
                 //all errors handled in withErrorHandler hoc component
@@ -56,13 +55,13 @@ const Customers = (props) => {
 
     const fields = [
 
-        {key: 'surname', label: "First Name", _style: {width: '20%'}},
-        {key: 'name', label: "Last Name", _style: {width: '20%'}},
-        {key: 'email', _style: {width: '30%'}},
-        {key: 'cin', _style: {width: '20%'}},
-        {key: 'birthday', _style: {width: '20%'}},
-        {key: 'phone', _style: {width: '20%'}},
-        {key: 'address', _style: {width: '20%'}},
+        {key: 'num', label: "Number", _style: {width: '20%'}},
+        {key: 'mark', label: "Mark", _style: {width: '20%'}},
+        {key: 'model',label: "Model", _style: {width: '20%'}},
+        {key: 'serialNum',label: "Serial Number", _style: {width: '20%'}},
+        {key: 'dateFirstRegistration',label:"Registration Date", _style: {width: '20%'}},
+        {key: 'exploitationCartDate', label:"Exploitation Date",_style: {width: '20%'}},
+        {key: 'exploitationCartNum', label:"Exploitation Number",_style: {width: '20%'}},
         {key: 'state', _style: {width: '20%'}},
         {
             key: 'show_details',
@@ -74,22 +73,12 @@ const Customers = (props) => {
     ]
     const getBadge = (state) => {
         switch (state) {
-            case 'READY':
+            case 'ACTIVE':
                 return 'success'
-            case 'LEARNING':
-                return 'success'
-            case 'INACTIVE':
-                return 'secondary'
-            case 'UNVERIFIED':
-                return 'warning'
-            case 'PROFILE_NOT_COMPLETED':
-                return 'warning'
             case 'SUSPENDED':
                 return 'danger'
             case 'RETIRED':
                 return 'danger'
-            case 'DRIVING':
-                return 'primary'
             default:
                 return 'primary'
         }
@@ -102,19 +91,15 @@ const Customers = (props) => {
             ...data,
             agency: agencyId
         }
-        axios.post('/client', data)
+        axios.post('/car', data)
             .then(() => {
                 setLoading(false)
-                cogoToast.success("Customer added successfully", {position: "top-right"})
+                cogoToast.success("Car added successfully", {position: "top-right"})
                 modalCloseHandle()
                 e.target.reset()
-                getAllCustomers()
+                getAllCars()
             })
             .catch((error) => {
-
-                if(error && error.response && error.response.status===300){
-                    console.log(error.response.data)
-                }
                 setLoading(false)
                 //all errors handled in withErrorHandler hoc component
             });
@@ -127,16 +112,15 @@ const Customers = (props) => {
             agency: agencyId
         }
         const id = data._id;
-        delete data.password;
         delete data.state;
-        delete data.hasPack;
-        delete data._id
-        axios.put('/client/' + id, data)
+        delete data._id;
+        delete data.__v;
+        axios.put('/car/' + id, data)
             .then(() => {
                 setLoading(false)
-                cogoToast.success("Customer updated successfully", {position: "top-right"})
+                cogoToast.success("Car updated successfully", {position: "top-right"})
                 modalCloseHandle()
-                getAllCustomers()
+                getAllCars()
                 setDetails([])
 
             })
@@ -147,13 +131,13 @@ const Customers = (props) => {
     };
 
     const showUpdateForm = (id) => {
-        const index = clients.findIndex((client) => client._id === id);
-        const client={
-            ...clients[index],
-            birthday:clients[index].birthday.slice(0,10),
-            cinDate: clients[index].cinDate.slice(0,10)
+        const index = cars.findIndex((car) => car._id === id);
+        const car={
+            ...cars[index],
+            dateFirstRegistration:cars[index].dateFirstRegistration.slice(0,10),
+            exploitationCartDate: cars[index].exploitationCartDate.slice(0,10)
         }
-        setFormUpdate(client)
+        setFormUpdate(car)
         setVisible(true)
     }
 
@@ -162,10 +146,10 @@ const Customers = (props) => {
         const data={
             agency:agencyId
         }
-        axios.delete('/client/' + id,{data:data})
+        axios.delete('/car/' + id,{data:data})
             .then(() => {
-                cogoToast.success("Customer deleted successfully", {position: "top-right"})
-                getAllCustomers()
+                cogoToast.success("Car deleted successfully", {position: "top-right"})
+                getAllCars()
                 setDetails([])
             })
             .catch((error) => {
@@ -177,10 +161,10 @@ const Customers = (props) => {
         const data={
             agency:agencyId
         }
-        axios.put('/client/suspended/' + id,data)
+        axios.put('/car/suspended/' + id,data)
             .then(() => {
-                cogoToast.success("Customer suspended successfully", {position: "top-right"})
-                getAllCustomers()
+                cogoToast.success("Car suspended successfully", {position: "top-right"})
+                getAllCars()
                 setDetails([])
             })
             .catch((error) => {
@@ -194,11 +178,11 @@ const Customers = (props) => {
 
         <>
             {
-                !clients ? <CSpinner color="info" style={{marginLeft: "45%", marginTop: "15%"}}/>
+                !cars ? <CSpinner color="info" style={{marginLeft: "45%", marginTop: "15%"}}/>
                     :
                     <>
                         <CModal show={visible} onClose={modalCloseHandle}>
-                            <CModalHeader closeButton> {!formUpdate ? "Add Customer" : "Update Customer"}</CModalHeader>
+                            <CModalHeader closeButton> {!formUpdate ? "Add Car" : "Update Car"}</CModalHeader>
                             <br/>
                             <CModalBody>
                                 {
@@ -217,7 +201,7 @@ const Customers = (props) => {
                             </CCardHeader>
                             <CCardBody>
                                 <CDataTable
-                                    items={clients}
+                                    items={cars}
                                     fields={fields}
                                     columnFilter
                                     tableFilter
@@ -235,10 +219,16 @@ const Customers = (props) => {
                                                     </CBadge>
                                                 </td>
                                             ),
-                                        'birthday':
+                                        'dateFirstRegistration':
                                             (item) => (
                                                 <td>
-                                                    {item.birthday.slice(0, 10)}
+                                                    {item.dateFirstRegistration.slice(0, 10)}
+                                                </td>
+                                            ),
+                                        'exploitationCartDate':
+                                            (item) => (
+                                                <td>
+                                                    {item.exploitationCartDate.slice(0, 10)}
                                                 </td>
                                             ),
                                         'show_details':
@@ -296,4 +286,4 @@ const Customers = (props) => {
     )
 }
 
-export default withErrorHandler(Customers,axios);
+export default withErrorHandler(Cars,axios);

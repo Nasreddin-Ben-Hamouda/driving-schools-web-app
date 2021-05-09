@@ -8,17 +8,14 @@ import {errorsStyle,inputBorderErrorsStyle} from "../../../../helpers/utility";
 
 const reg = /^\d+$/;
 const schema = yup.object().shape({
-    username: yup.string().required().min(4).max(55),
     surname:yup.string().required("first name is a required field")
             .min(4,"first name must be at least 4 characters")
             .max(55,"first name must be at most 55 characters"),
     name:yup.string().required("last name is a required field")
          .min(4,"last name must be at least 4 characters")
          .max(55,"last name must be at most 55 characters"),
-    password:yup.string().required().min(8).max(255),
     cin:yup.string().matches(reg,"cin must be a number").required().length(8),
     cinDate:yup.string().required("cin date is a required field"),
-    email:yup.string().email().required(),
     phone:yup.string().required().min(8).max(13),
     address:yup.string().min(5).max(255),
     postalCode:yup.string().matches(reg,"zip code must be a number").min(4,"zip code must be at least 4 characters").max(10,"zip code must be at most 10 characters"),
@@ -37,34 +34,17 @@ const UseForm = ({onSubmit,loading}) => {
                         <div className="form-row">
                         </div>
                         <div className="form-row">
-                            <div className="form-group col-md-4">
-                                <label>Username</label>
-                                <input type="text" className="form-control"     style={errors.username?inputBorderErrorsStyle:null} {...register("username")}  placeholder={"Enter your username"}/>
-                                <p style={errorsStyle}>{errors.username?.message}</p>
-                            </div>
-                            <div className="form-group col-md-4">
+                            <div className="form-group col-md-6">
                                 <label>First Name</label>
                                 <input type="text" className="form-control"     style={errors.surname?inputBorderErrorsStyle:null} {...register("surname")}  placeholder={"Enter your first name"}/>
                                 <p style={errorsStyle}>{errors.surname?.message}</p>
                             </div>
-                            <div className="form-group col-md-4">
+                            <div className="form-group col-md-6">
                                 <label>Last Name</label>
                                 <input type="text" className="form-control"     style={errors.name?inputBorderErrorsStyle:null} {...register("name")}  placeholder={"Enter your last name"}/>
                                 <p style={errorsStyle}>{errors.name?.message}</p>
                             </div>
 
-                        </div>
-                        <div className="form-row">
-                            <div className="form-group col-md-6">
-                                <label>Email</label>
-                                <input type="email" className="form-control"   style={errors.email?inputBorderErrorsStyle:null} {...register("email")}  placeholder={"Enter your email"}/>
-                                <p style={errorsStyle}>{errors.email?.message}</p>
-                            </div>
-                            <div className="form-group col-md-6">
-                                <label>Password</label>
-                                <input type="password" className="form-control"  style={errors.password?inputBorderErrorsStyle:null} {...register("password")}  placeholder={"Enter your password"}/>
-                                <p style={errorsStyle}>{errors.password?.message}</p>
-                            </div>
                         </div>
                         <div className="form-row">
                             <div className="form-group col-md-6">

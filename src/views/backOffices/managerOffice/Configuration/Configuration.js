@@ -1,4 +1,5 @@
-import React, {lazy, useEffect, useRef, useState} from 'react'
+import React, { useEffect, useState} from 'react'
+import withErrorHandler from "../../../../hoc/backOffices/withErrorHandler"
 import UseForm from './UseForm'
 import {
    CSpinner
@@ -9,6 +10,7 @@ import cogoToast from 'cogo-toast';
 const agencyId="606f0dc7e3bf6a72dd524d4f";
 const Configuration = () => {
     const [fields,setFields]=useState(null);
+    const [ loading,setLoading]=useState(false);
     useEffect(()=>{
         getAgency();
 
@@ -26,17 +28,12 @@ const Configuration = () => {
 
             })
             .catch((error)=>{
-                //todo handle error
-                if(error.response.status===404){
-                    //todo redirect them to the home page
-                    cogoToast.error("agency not found",{position:"top-right"})
-                }else {
-                    cogoToast.error("Something went wrong",{position:"top-right"})
-                }
+                //all errors handled in withErrorHandler hoc component
             })
     }
 
     const onSubmit = (data)=>{
+        setLoading(true)
         delete data.state;
         delete data.licenceExpirationDate;
         delete data._id;
@@ -44,19 +41,15 @@ const Configuration = () => {
         axios.put('/agency/'+agencyId,data)
              .then((response)=>{
                  cogoToast.success("Agency updated successfully",{position:"top-right"})
+                 setLoading(false)
              })
              .catch((error)=>{
-                 if(error.response.status===404){
-                     //todo redirect them to the home page
-                     cogoToast.error("agency not found",{position:"top-right"})
-                 }else {
-                     cogoToast.error("Something went wrong",{position:"top-right"})
-                 }
-
+                 setLoading(false)
+                 //all errors handled in withErrorHandler hoc component
              })
     };
 
-  return fields?<UseForm preloadedValues={fields} onSubmit={onSubmit}/>:<CSpinner color="info" style={{marginLeft:"45%",marginTop:"15%"}} />
+  return fields?<UseForm preloadedValues={fields} loading={loading} onSubmit={onSubmit}/>:<CSpinner color="info" style={{marginLeft:"45%",marginTop:"15%"}} />
 }
 
-export default Configuration;
+export default withErrorHandler(Configuration,axios);
