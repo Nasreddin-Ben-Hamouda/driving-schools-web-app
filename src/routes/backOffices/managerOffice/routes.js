@@ -6,6 +6,7 @@ const Customers =lazy(() => import('../../../views/backOffices/managerOffice/Cus
 const Monitors =lazy(() => import('../../../views/backOffices/managerOffice/Monitors/Monitors'));
 const Cars =lazy(() => import('../../../views/backOffices/managerOffice/Cars/Cars'));
 const Exams =lazy(() => import('../../../views/backOffices/managerOffice/Exams/Exams'));
+const Sessions =lazy(() => import('../../../views/backOffices/managerOffice/Sessions/Sessions'));
 const routes = [
     { path: '/companies/:id', exact: true, name: 'Companies' },
     { path: '/companies/:id/dashboard', name: 'Dashboard', component: Dashboard },
@@ -13,8 +14,8 @@ const routes = [
     { path: '/companies/:id/monitors', name: 'Monitors', component: Monitors },
     { path: '/companies/:id/cars', name: 'Cars', component: Cars },
     { path: '/companies/:id/exams', name: 'Exams', component: Exams },
-    { path: '/companies/:id/sessions', name: 'Sessions', component: Dashboard },
-    { path: '/companies/:id/configuration',  name: 'Configuration', component:Configuration },
+    { path: '/companies/:id/sessions', name: 'Sessions', component: Sessions },
+    { path: '/companies/:id/settings',  name: 'Settings', component:Configuration },
     { path: '/companies/:id/calendar',  name: 'Calendar', component: Dashboard },
 ];
 

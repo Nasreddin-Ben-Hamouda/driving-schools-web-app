@@ -18,9 +18,9 @@ export default (id)=>{
     },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Company',
-    to: `/companies/${id}/configuration`,
-    icon:'cilBank' ,
+    name: 'Settings',
+    to: `/companies/${id}/settings`,
+    icon:'cilSettings' ,
 
   },
     {

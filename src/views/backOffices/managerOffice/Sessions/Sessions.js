@@ -18,9 +18,9 @@ import "antd/dist/antd.css";
 import subAxios from "../../../../axios/subscription-service";
 import schAxios from "../../../../axios/scheduling-service";
 const agencyId="606f0dc7e3bf6a72dd524d4f";
-const Exams = (props) => {
+const Sessions = (props) => {
 
-    const [exams, setExams] = useState(null);
+    const [sessions, setSessions] = useState(null);
     const [details, setDetails] = useState([]);
     const [formUpdate, setFormUpdate] = useState(null);
     const [visible, setVisible] = useState(false);
@@ -30,15 +30,15 @@ const Exams = (props) => {
     const [cars, setCars] = useState(null);
 
     useEffect(() => {
-        getAllExams()
+        getAllSessions()
         getClients()
         getMonitors()
         getCars()
     }, []);
-    const getAllExams = () => {
-        schAxios.get('/exam/' + agencyId)
+    const getAllSessions = () => {
+        schAxios.get('/session/' + agencyId)
             .then((response) => {
-                setExams(response.data);
+                setSessions(response.data);
             })
             .catch((error) => {
                 //all errors handled in withErrorHandler hoc component
@@ -89,14 +89,14 @@ const Exams = (props) => {
 
 
     const fields = [
-
-        {key: 'numexam', label: "Number", _style: {}},
         {key: 'client', label: "Customer", _style: {width: '30%'}},
         {key: 'monitor', _style: {width: '30%'}},
         {key: 'car', _style: {width: '30%'}},
-        {key: 'examDate', label: "Date", _style: {width: '20%'}},
-        {key: 'examinateur', label: "Examiner", _style: {width: '20%'}},
+        {key: 'startDate', label: "Start Date"},
+        {key: 'endDate', label: "End Date"},
+        {key: 'isPayed',label:'Payment' ,_style: {width: '20%'}},
         {key: 'state', _style: {width: '20%'}},
+
         {
             key: 'show_details',
             label: 'Actions',
@@ -105,15 +105,16 @@ const Exams = (props) => {
             filter: false
         }
     ]
-
     const getBadge = (state) => {
         switch (state) {
-            case 'succeed':
+            case 'FINISHED':
                 return 'success'
-            case 'scheduled':
+            case 'APPROVED':
                 return 'primary'
-            case 'failed':
+            case 'CANCELED':
                 return 'danger'
+            case 'REQUESTED':
+                return 'warning'
             default:
                 return 'primary'
         }
@@ -121,24 +122,25 @@ const Exams = (props) => {
 
 
     const onSubmitAddForm = (data, e) => {
-         setLoading(true)
-         data = {
-             ...data,
-             agency: agencyId
-         }
-         schAxios.post('/exam/scheduled', data)
-             .then(() => {
-                 setLoading(false)
-                 cogoToast.success("Exam added successfully", {position: "top-right"})
-                 modalCloseHandle()
-                 e.target.reset()
-                 getAllExams()
-             })
-             .catch((error) => {
-                 setLoading(false)
+        setLoading(true)
+        data = {
+            ...data,
+            agency: agencyId
+        }
+        console.log(data)
+        schAxios.post('/session/reserve', data)
+            .then(() => {
+                setLoading(false)
+                cogoToast.success("Session reserved successfully", {position: "top-right"})
+                modalCloseHandle()
+                e.target.reset()
+                getAllSessions()
+            })
+            .catch((error) => {
+                setLoading(false)
 
-                 //all errors handled in withErrorHandler hoc component
-             });
+                //all errors handled in withErrorHandler hoc component
+            });
     };
 
     const onSubmitUpdateForm = (data) => {
@@ -151,12 +153,13 @@ const Exams = (props) => {
         delete data.state;
         delete data._id;
         delete data.__v;
-        schAxios.put('/exam/' + id, data)
+        delete data.isPayed;
+        schAxios.patch('/session/update/' + id, data)
             .then(() => {
                 setLoading(false)
                 cogoToast.success("Exam updated successfully", {position: "top-right"})
                 modalCloseHandle()
-                getAllExams()
+                getAllSessions()
                 setDetails([])
 
             })
@@ -167,14 +170,19 @@ const Exams = (props) => {
     };
 
     const showUpdateForm = (id) => {
-        const index = exams.findIndex((exam) => exam._id === id);
-        console.log(exams[index])
+        const index = sessions.findIndex((exam) => exam._id === id);
+        console.log(sessions[index])
+        Date.prototype.addHours= function(h){
+            this.setHours(this.getHours()+h);
+            return this;
+        }
         const exam = {
-            ...exams[index],
-            examDate: exams[index].examDate.slice(0, 10),
-            client:exams[index].client._id,
-            car:exams[index].car._id,
-            monitor:exams[index].monitor._id
+            ...sessions[index],
+            startDate:new Date(sessions[index].startDate).addHours(1).toISOString().slice(0, -1),
+            endDate:new Date(sessions[index].endDate).addHours(1).toISOString().slice(0, -1),
+            client: sessions[index].client._id,
+            car: sessions[index].car._id,
+            monitor: sessions[index].monitor._id
         }
         setFormUpdate(exam)
         setVisible(true)
@@ -185,10 +193,10 @@ const Exams = (props) => {
         const data = {
             agency: agencyId
         }
-        schAxios.delete('/exam/' + id, {data: data})
+        schAxios.delete('/session/reject/' + id, {data: data})
             .then(() => {
                 cogoToast.success("Exam deleted successfully", {position: "top-right"})
-                getAllExams()
+                getAllSessions()
                 setDetails([])
             })
             .catch((error) => {
@@ -196,28 +204,42 @@ const Exams = (props) => {
             });
     }
 
-    const succeedExamHandler = (id) => {
+    const cancelSessionHandler = (id) => {
         const data = {
             agency: agencyId
         }
-        schAxios.patch('/exam/succeed/' + id, data)
+        schAxios.patch('/session/cancel/' + id, data)
             .then(() => {
-                cogoToast.success("Exam succeeded successfully", {position: "top-right"})
-                getAllExams()
+                cogoToast.success("Session canceled successfully", {position: "top-right"})
+                getAllSessions()
                 setDetails([])
             })
             .catch((error) => {
                 //all errors handled in withErrorHandler hoc component
             });
     }
-    const failedExamHandler = (id) => {
+    const finishSessionHandler = (id) => {
         const data = {
             agency: agencyId
         }
-        schAxios.patch('/exam/failed/' + id, data)
+        schAxios.patch('/session/finish/' + id, data)
             .then(() => {
-                cogoToast.success("Exam failed successfully", {position: "top-right"})
-                getAllExams()
+                cogoToast.success("Session finished successfully", {position: "top-right"})
+                getAllSessions()
+                setDetails([])
+            })
+            .catch((error) => {
+                //all errors handled in withErrorHandler hoc component
+            });
+    }
+    const paidSessionHandler = (id) => {
+        const data = {
+            agency: agencyId
+        }
+        schAxios.patch('/session/paid/' + id, data)
+            .then(() => {
+                cogoToast.success("Session paid successfully", {position: "top-right"})
+                getAllSessions()
                 setDetails([])
             })
             .catch((error) => {
@@ -231,11 +253,11 @@ const Exams = (props) => {
 
         <>
             {
-                !exams ? <CSpinner color="info" style={{marginLeft: "45%", marginTop: "15%"}}/>
+                !sessions ? <CSpinner color="info" style={{marginLeft: "45%", marginTop: "15%"}}/>
                     :
                     <>
                         <CModal show={visible} onClose={modalCloseHandle}>
-                            <CModalHeader closeButton> {!formUpdate ? "Add Exam" : "Update Exam"}</CModalHeader>
+                            <CModalHeader closeButton> {!formUpdate ? "Add Session" : "Update Session"}</CModalHeader>
                             <br/>
                             <CModalBody>
                                 {clients && monitors && cars ?
@@ -259,7 +281,7 @@ const Exams = (props) => {
                             </CCardHeader>
                             <CCardBody>
                                 <CDataTable
-                                    items={exams}
+                                    items={sessions}
                                     fields={fields}
                                     columnFilter
                                     tableFilter
@@ -302,10 +324,22 @@ const Exams = (props) => {
                                                     </CBadge>
                                                 </td>
                                             ),
-                                        'examDate':
+                                        'startDate':
                                             (item) => (
                                                 <td>
-                                                    {item.examDate.slice(0, 10)}
+                                                    {new Date(item.startDate).toLocaleString()}
+                                                </td>
+                                            ),
+                                        'endDate':
+                                            (item) => (
+                                                <td>
+                                                    {new Date(item.endDate).toLocaleString()}
+                                                </td>
+                                            ),
+                                        'isPayed':
+                                            (item) => (
+                                                <td>
+                                                    {item.isPayed ? "paid" : "not paid yet"}
                                                 </td>
                                             ),
                                         'show_details':
@@ -344,19 +378,27 @@ const Exams = (props) => {
                                                                 </CButton>
                                                             </Popconfirm>
                                                             <Popconfirm title="Are you sure？" okText="Yes"
-                                                                        onConfirm={() => succeedExamHandler(item._id)}
+                                                                        onConfirm={() => paidSessionHandler(item._id)}
                                                                         cancelText="No">
 
-                                                                <CButton size="sm" color="success" className="ml-1">
-                                                                    Succeed
+                                                                <CButton size="sm" color="primary" className="ml-1">
+                                                                    Paid
                                                                 </CButton>
                                                             </Popconfirm>
                                                             <Popconfirm title="Are you sure？" okText="Yes"
-                                                                        onConfirm={() => failedExamHandler(item._id)}
+                                                                        onConfirm={() => cancelSessionHandler(item._id)}
                                                                         cancelText="No">
 
                                                                 <CButton size="sm" color="warning" className="ml-1">
-                                                                    Failed
+                                                                    Cancel
+                                                                </CButton>
+                                                            </Popconfirm>
+                                                            <Popconfirm title="Are you sure？" okText="Yes"
+                                                                        onConfirm={() => finishSessionHandler(item._id)}
+                                                                        cancelText="No">
+
+                                                                <CButton size="sm" color="success" className="ml-1">
+                                                                    Finish
                                                                 </CButton>
                                                             </Popconfirm>
                                                         </CCardBody>
@@ -373,4 +415,4 @@ const Exams = (props) => {
     )
 }
 
-export default withErrorHandler(Exams,schAxios);
+export default withErrorHandler(Sessions,schAxios);
