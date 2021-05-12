@@ -169,9 +169,13 @@ const Exams = (props) => {
     const showUpdateForm = (id) => {
         const index = exams.findIndex((exam) => exam._id === id);
         console.log(exams[index])
+        Date.prototype.addHours= function(h){
+            this.setHours(this.getHours()+h);
+            return this;
+        }
         const exam = {
             ...exams[index],
-            examDate: exams[index].examDate.slice(0, 10),
+            examDate: new Date(exams[index].examDate).addHours(1).toISOString().slice(0, -1),
             client:exams[index].client._id,
             car:exams[index].car._id,
             monitor:exams[index].monitor._id
@@ -305,7 +309,7 @@ const Exams = (props) => {
                                         'examDate':
                                             (item) => (
                                                 <td>
-                                                    {item.examDate.slice(0, 10)}
+                                                    {new Date(item.examDate).toLocaleString()}
                                                 </td>
                                             ),
                                         'show_details':

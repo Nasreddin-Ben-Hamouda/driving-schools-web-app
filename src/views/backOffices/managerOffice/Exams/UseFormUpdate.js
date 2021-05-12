@@ -15,7 +15,7 @@ const schema = yup.object().shape({
     examinateur:yup.string().required("examiner is a required field")
         .min(4,"examiner must be at least 4 characters")
         .max(55,"examiner must be at most 55 characters"),
-    examDate:yup.string().required("exam date is a required field")
+    examDate:yup.date().typeError("exam date is a required field")
 
 });
 const UseFormUpdate = ({preloadedValues,onSubmit,loading,clients,monitors,cars}) => {
@@ -75,7 +75,7 @@ const UseFormUpdate = ({preloadedValues,onSubmit,loading,clients,monitors,cars})
                         </div>
                         <div className="form-group col-md-6">
                             <label>Date</label>
-                            <input type="date" className="form-control" min={new Date().toISOString().split("T")[0]} style={errors.examDate?inputBorderErrorsStyle:null} {...register("examDate") } />
+                            <input type="datetime-local" className="form-control" min={new Date().toISOString().substring(0,16)}style={errors.examDate?inputBorderErrorsStyle:null} {...register("examDate") } />
                             <p style={errorsStyle}>{errors.examDate?.message}</p>
                         </div>
 
