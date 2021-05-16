@@ -62,15 +62,31 @@ const TheHeader = (props) => {
       </CHeaderBrand>
 
       <CHeaderNav className="d-md-down-none mr-auto">
+
         <CHeaderNavItem className="px-3" >
-          <CHeaderNavLink to={"/companies/"+props.id+"/dashboard"}>Dashboard</CHeaderNavLink>
+          <CHeaderNavLink to={"/companies/"+props.id+"/dashboard"}>
+              <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>
+              Dashboard
+          </CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem  className="px-3">
-          <CHeaderNavLink to={"/companies/"+props.id+"/customers"}>Customers</CHeaderNavLink>
+          <CHeaderNavLink to={"/companies/"+props.id+"/customers"}>
+              <CIcon name="cilPeople" customClasses="c-sidebar-nav-icon"/>
+              Customers
+          </CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to={"/companies/"+props.id+"/calendar"}>Calendar</CHeaderNavLink>
+          <CHeaderNavLink to={"/companies/"+props.id+"/sessions"}>
+              <CIcon name="cilAvTimer" customClasses="c-sidebar-nav-icon"/>
+              Sessions
+          </CHeaderNavLink>
         </CHeaderNavItem>
+          <CHeaderNavItem className="px-3">
+              <CHeaderNavLink to={"/companies/"+props.id+"/exams"}>
+                  <CIcon name="cilFile" customClasses="c-sidebar-nav-icon"/>
+                  Exams
+              </CHeaderNavLink>
+          </CHeaderNavItem>
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
