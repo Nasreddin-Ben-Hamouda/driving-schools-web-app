@@ -121,7 +121,8 @@ const Monitors = (props) => {
         delete data.certification;
         delete data.__v;
         axios.put('/monitor/' + id, data)
-            .then(() => {
+            .then((response) => {
+                //console.log(response.data)
                 setLoading(false)
                 cogoToast.success("Monitor updated successfully", {position: "top-right"})
                 modalCloseHandle()

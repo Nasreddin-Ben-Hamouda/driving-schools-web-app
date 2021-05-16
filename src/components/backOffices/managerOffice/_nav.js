@@ -1,7 +1,5 @@
 import React from 'react'
 
-
-
 export default (id)=>{
   //icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
   const _nav=
@@ -46,16 +44,42 @@ export default (id)=>{
     icon:'cilGarage' ,
   },
   {
-    _tag: 'CSidebarNavItem',
-    name: 'Exams',
-    to: `/companies/${id}/exams`,
-    icon:'cilFile' ,
+    _tag: 'CSidebarNavDropdown',
+    name: 'Sessions Management',
+    icon: 'cilNotes',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Sessions',
+        to: `/companies/${id}/sessions`,
+        icon:'cilAvTimer' ,
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Calendar',
+        to: `/companies/${id}/sessions/calendar`,
+        icon:'cilCalendar' ,
+      },
+    ],
   },
   {
-    _tag: 'CSidebarNavItem',
-    name: 'Sessions',
-    to: `/companies/${id}/sessions`,
-    icon:'cilCalendar' ,
+    _tag: 'CSidebarNavDropdown',
+    name: 'Exams Management',
+    icon: 'cilTask',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Exams',
+        to: `/companies/${id}/exams`,
+        icon:'cilFile' ,
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Calendar',
+        to: `/companies/${id}/exams/calendar`,
+        icon:'cilCalendar' ,
+      },
+    ],
   },
 
 
