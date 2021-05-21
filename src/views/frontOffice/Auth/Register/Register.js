@@ -8,13 +8,13 @@ import googleSVG from "../../../../assets/backOffices/img/logos/google.svg"
 
 const Register=(props)=>{
     const [useForm,setForm] = useState({
-        username: "",
+        fullName: "",
         email: "",
         password: "",
         agreement: true,
         loading:false
     })
-    let { username, email, password,agreement,loading } = useForm;
+    let { fullName, email, password,agreement,loading } = useForm;
     let timer=null;
 
     useEffect(()=>{
@@ -82,11 +82,11 @@ const Register=(props)=>{
                                     <TextValidator
                                         className="mb-6 w-full"
                                         variant="outlined"
-                                        label="Username"
+                                        label="Full Name"
                                         onChange={handleChange}
                                         type="text"
-                                        name="username"
-                                        value={username}
+                                        name="fullName"
+                                        value={fullName}
                                         validators={["required","minStringLength: 4","maxStringLength: 30"]}
                                         errorMessages={
                                             [

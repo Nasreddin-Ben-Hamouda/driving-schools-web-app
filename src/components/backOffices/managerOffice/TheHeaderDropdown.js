@@ -1,5 +1,8 @@
 import React from 'react'
 import {
+  Link
+} from "react-router-dom";
+import {
   CBadge,
   CDropdown,
   CDropdownItem,
@@ -10,7 +13,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import userImg from '../../../assets/backOffices/img/user.png'
 
-const TheHeaderDropdown = () => {
+const TheHeaderDropdown = (props) => {
   return (
     <CDropdown
       inNav
@@ -27,43 +30,14 @@ const TheHeaderDropdown = () => {
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownItem
-          header
-          tag="div"
-          color="light"
-          className="text-center"
-        >
-          <strong>Account</strong>
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-bell" className="mfe-2" />
-          Updates
-          <CBadge color="info" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-envelope-open" className="mfe-2" />
-          Messages
-          <CBadge color="success" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
-        <CDropdownItem
-          header
-          tag="div"
-          color="light"
-          className="text-center"
-        >
-          <strong>Settings</strong>
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-user" className="mfe-2" />Profile
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-settings" className="mfe-2" />
-          Settings
+        <CDropdownItem to={`/companies/${props.id}/Profile`}>
+          <CIcon name="cil-user" className="mfe-2" />
+           Profile
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem>
+        <CDropdownItem to={`/companies/${props.id}/Profile`}>
           <CIcon name="cil-lock-locked" className="mfe-2" />
-          Lock Account
+              Logout
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

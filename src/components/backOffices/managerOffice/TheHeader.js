@@ -90,9 +90,7 @@ const TheHeader = (props) => {
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
-        <TheHeaderDropdownNotif/>
-        <TheHeaderDropdownTasks/>
-        <TheHeaderDropdown/>
+        <TheHeaderDropdown id={props.id}/>
       </CHeaderNav>
 
       <CSubheader className="px-3 justify-content-between">

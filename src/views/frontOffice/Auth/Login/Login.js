@@ -29,6 +29,37 @@ const Login=(props)=>{
 
     };
     const handleFormSubmit = event => {
+        const redirectUri = 'http://localhost:3000'; // redirect url should be a page where extractToken is called
+        const email =  'ahmedbenyahiass@gmail.com';
+        const password = '6LggH^f6xQ5QW4a';
+            let webAuth = new auth0.WebAuth({
+                domain: 'sayto.eu.auth0.com',
+                clientID: 'd8Q6NjdtQt69KHypYoZiW2AeQRA5O9Cz',
+                responseType: 'token id_token',
+                audience: 'http://localhost:3004',
+                // redirectUri: 'http://localhost:63342/AE/auth-service/helper/login.html?_ijt=hekuomjsk086gr4fllscbs76o9/callback',
+                redirectUri ,
+            });
+            webAuth.login({
+                realm: 'Username-Password-Authentication',
+                email,
+                password,
+            });
+        function extractToken() {
+            webAuth.parseHash({hash: window.location.hash}, function (err, authResult) {
+                if (err) {
+                    return console.log(err);
+                }
+                console.log(authResult)
+
+                webAuth.client.userInfo(authResult.accessToken, function (err, user) {
+                    // Now you have the user's information
+                    console.log(user)
+                });
+            });
+        }
+
+        login(redirectUri, email, password)
             //this.props.loginWithEmailAndPassword({ ...this.state });
             console.log('login')
 
