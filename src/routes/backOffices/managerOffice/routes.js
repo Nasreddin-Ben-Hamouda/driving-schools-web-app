@@ -9,6 +9,7 @@ const Exams =lazy(() => import('../../../views/backOffices/managerOffice/Exams/E
 const Sessions =lazy(() => import('../../../views/backOffices/managerOffice/Sessions/Sessions'));
 const SessionsCalendar =lazy(() => import('../../../views/backOffices/managerOffice/Sessions/Calendar/Calendar'));
 const ExamsCalendar =lazy(() => import('../../../views/backOffices/managerOffice/Exams/Calendar/Calendar'));
+const Profile =lazy(() => import('../../../views/backOffices/managerOffice/Profile/Profile'));
 
 const routes = [
     { path: '/companies/:id', exact: true, name: 'Companies' },
@@ -21,6 +22,7 @@ const routes = [
     { path: '/companies/:id/settings',  name: 'Settings', component:Configuration },
     { path: '/companies/:id/sessions/calendar',  name: 'Calendar', component: SessionsCalendar },
     { path: '/companies/:id/exams/calendar',  name: 'Calendar', component:ExamsCalendar },
+    { path: '/companies/:id/Profile',  name: 'Profile', component:Profile },
 ];
 
 export default routes;
