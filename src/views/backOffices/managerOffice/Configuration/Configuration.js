@@ -6,9 +6,10 @@ import {
 } from '@coreui/react'
 import axios from '../../../../axios/subscription-service'
 import cogoToast from 'cogo-toast';
+import {useSelector} from "react-redux";
 
-const agencyId="606f0dc7e3bf6a72dd524d4f";
 const Configuration = () => {
+    const agencyId=useSelector(state=>state.user.user.agency);
     const [fields,setFields]=useState(null);
     const [ loading,setLoading]=useState(false);
     useEffect(()=>{

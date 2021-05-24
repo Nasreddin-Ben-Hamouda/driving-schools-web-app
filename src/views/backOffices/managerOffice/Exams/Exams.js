@@ -15,11 +15,10 @@ import UseFormUpdate from "./UseFormUpdate";
 import cogoToast from "cogo-toast";
 import { Popconfirm } from 'antd';
 import "antd/dist/antd.css";
-import subAxios from "../../../../axios/subscription-service";
-import schAxios from "../../../../axios/scheduling-service";
-const agencyId="606f0dc7e3bf6a72dd524d4f";
+import axios from "../../../../axios/scheduling-service";
+import {useSelector} from "react-redux";
 const Exams = (props) => {
-
+    const agencyId=useSelector(state=>state.user.user.agency);
     const [exams, setExams] = useState(null);
     const [details, setDetails] = useState([]);
     const [formUpdate, setFormUpdate] = useState(null);
@@ -36,7 +35,7 @@ const Exams = (props) => {
         getCars()
     }, []);
     const getAllExams = () => {
-        schAxios.get('/exam/' + agencyId)
+        axios.get('/exam/' + agencyId)
             .then((response) => {
                 setExams(response.data);
             })
@@ -45,7 +44,7 @@ const Exams = (props) => {
             })
     }
     const getClients = () => {
-        subAxios.get('/client/' + agencyId)
+        axios.get('/exam/agency/clients/' + agencyId)
             .then((response) => {
                 setClients(response.data);
             })
@@ -54,7 +53,7 @@ const Exams = (props) => {
             })
     }
     const getMonitors = () => {
-        schAxios.get('/monitor/' + agencyId)
+        axios.get('/monitor/' + agencyId)
             .then((response) => {
                 setMonitors(response.data);
             })
@@ -63,7 +62,7 @@ const Exams = (props) => {
             })
     }
     const getCars = () => {
-        schAxios.get('/car/' + agencyId)
+        axios.get('/car/' + agencyId)
             .then((response) => {
                 setCars(response.data);
             })
@@ -126,7 +125,7 @@ const Exams = (props) => {
              ...data,
              agency: agencyId
          }
-         schAxios.post('/exam/scheduled', data)
+         axios.post('/exam/scheduled', data)
              .then(() => {
                  setLoading(false)
                  cogoToast.success("Exam added successfully", {position: "top-right"})
@@ -151,7 +150,7 @@ const Exams = (props) => {
         delete data.state;
         delete data._id;
         delete data.__v;
-        schAxios.put('/exam/' + id, data)
+        axios.put('/exam/' + id, data)
             .then(() => {
                 setLoading(false)
                 cogoToast.success("Exam updated successfully", {position: "top-right"})
@@ -189,7 +188,7 @@ const Exams = (props) => {
         const data = {
             agency: agencyId
         }
-        schAxios.delete('/exam/' + id, {data: data})
+        axios.delete('/exam/' + id, {data: data})
             .then(() => {
                 cogoToast.success("Exam deleted successfully", {position: "top-right"})
                 getAllExams()
@@ -204,7 +203,7 @@ const Exams = (props) => {
         const data = {
             agency: agencyId
         }
-        schAxios.patch('/exam/succeed/' + id, data)
+        axios.patch('/exam/succeed/' + id, data)
             .then(() => {
                 cogoToast.success("Exam succeeded successfully", {position: "top-right"})
                 getAllExams()
@@ -218,7 +217,7 @@ const Exams = (props) => {
         const data = {
             agency: agencyId
         }
-        schAxios.patch('/exam/failed/' + id, data)
+        axios.patch('/exam/failed/' + id, data)
             .then(() => {
                 cogoToast.success("Exam failed successfully", {position: "top-right"})
                 getAllExams()
@@ -377,4 +376,4 @@ const Exams = (props) => {
     )
 }
 
-export default withErrorHandler(Exams,schAxios);
+export default withErrorHandler(Exams,axios);

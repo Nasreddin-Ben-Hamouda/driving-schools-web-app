@@ -1,4 +1,4 @@
-import React,{ lazy,useState } from "react";
+import React,{ lazy,useState,useEffect} from "react";
 
 import IntroContent from "../../../content/frontOffice/IntroContent.json";
 import MiddleBlockContent from "../../../content/frontOffice/MiddleBlockContent.json";
@@ -10,6 +10,11 @@ import "antd/dist/antd.css";
 import { Modal} from 'antd';
 import {updateObject} from "../../../helpers/utility"
 import {CloseOutlined} from "@ant-design/icons"
+import * as actions from "../../../store/actions/common/User";
+import {useDispatch,useSelector} from "react-redux";
+import withErrorHandler from "../../../hoc/backOffices/withErrorHandler";
+import axios from "../../../axios/auth-service";
+import cogoToast from 'cogo-toast';
 const ContactFrom = lazy(() => import("../../../components/frontOffice/ContactForm"));
 const ContentBlock = lazy(() => import("../../../components/frontOffice/ContentBlock"));
 const MiddleBlock = lazy(() => import("../../../components/frontOffice/MiddleBlock"));
@@ -21,11 +26,32 @@ const Register=lazy(()=>import('../Auth/Register/Register'))
 const ForgotPassword=lazy(()=>import('../Auth/ForgetPassword/ForgetPassword'))
 
 const Home = (props) => {
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user.user);
+    const redirect = useSelector(state => state.user.redirect);
     const [visible, setVisible] = useState({
       login:false,
       register:false,
       forgotPassword:false,
     });
+    useEffect(() => {
+        if(redirect){
+            if(user.role==="USER"){
+                if(!user.agency){
+                    cogoToast.warn("Welcome ! complete you registration by creating an agency",{position: "top-right"})
+                }else{
+                    cogoToast.success("Welcome back !", {position: "top-right"})
+                }
+            }else{
+                cogoToast.success("Welcome back in your awesome platform !", {position: "top-right"})
+            }
+            props.history.push({pathname:redirect})
+            dispatch(actions.authFinish())
+        }
+    },[])
+    if(!localStorage.getItem('authToken') && user){
+        dispatch(actions.logout())
+    }
 
     const setModalVisibility=()=>{
         const updatedVisible={
@@ -57,19 +83,19 @@ const Home = (props) => {
                         >
                             {
                                 visible.login?
-                                    <Login open={showModalHandler}{...props} />
+                                    <Login close={setModalVisibility} open={showModalHandler}{...props} />
                                     :
                                 null
                             }
                             {
                                 visible.register?
-                                    <Register open={showModalHandler} {...props}/>
+                                    <Register close={setModalVisibility} open={showModalHandler} {...props}/>
                                     :
                                     null
                             }
                             {
                                 visible.forgotPassword?
-                                    <ForgotPassword open={showModalHandler} {...props}/>
+                                    <ForgotPassword close={setModalVisibility} open={showModalHandler} {...props}/>
                                     :
                                     null
                             }
@@ -122,4 +148,4 @@ const Home = (props) => {
     );
 };
 
-export default Home;
+export default withErrorHandler(Home,axios);

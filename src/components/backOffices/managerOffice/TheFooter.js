@@ -1,16 +1,16 @@
-import React from 'react'
+import React  from 'react'
 import { CFooter } from '@coreui/react'
-
+import {Link} from "react-router-dom"
 const TheFooter = () => {
   return (
     <CFooter fixed={false}>
       <div>
-        <a href="#" target="_blank" rel="noopener noreferrer">Driving School</a>
+        <Link to={"/"}>Driving School</Link>
         <span className="ml-1">&copy; {new Date().getFullYear()} creativeLabs.</span>
       </div>
       <div className="mfs-auto">
         <span className="mr-1">Powered by</span>
-        <a href="#" target="_blank" rel="noopener noreferrer">Cosa Nostra Team</a>
+          <Link to={"/"}>Cosa Nostra Team</Link>
       </div>
     </CFooter>
   )

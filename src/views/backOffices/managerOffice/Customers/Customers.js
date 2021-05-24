@@ -16,9 +16,9 @@ import axios from "../../../../axios/subscription-service";
 import cogoToast from "cogo-toast";
 import { Popconfirm } from 'antd';
 import "antd/dist/antd.css";
-const agencyId="606f0dc7e3bf6a72dd524d4f";
+import {useSelector} from "react-redux";
 const Customers = (props) => {
-
+    const agencyId=useSelector(state=>state.user.user.agency);
     const [clients, setClients] = useState(null);
     const [details, setDetails] = useState([]);
     const [formUpdate, setFormUpdate] = useState(null);

@@ -16,14 +16,14 @@ const schema = yup.object().shape({
         .min(4,"full name must be at least 4 characters")
         .max(55,"full name must be at most 55 characters"),
     email:yup.string().email().required(),
-    phone:yup.string().required().min(8).max(13),
+    phone:yup.string().required().min(8).max(12),
 
 
 });
 const UseForm = ({onSubmit,preloadedValues,loading}) => {
 
     const { register, handleSubmit, formState:{ errors } } = useForm({
-        //defaultValues:preloadedValues,
+        defaultValues:preloadedValues,
         resolver: yupResolver(schema)
     });
 
@@ -50,7 +50,7 @@ const UseForm = ({onSubmit,preloadedValues,loading}) => {
                         <div className="form-row">
                             <div className="form-group col-md-12">
                                 <label>Phone</label>
-                                <input type="text" className="form-control"     style={errors.phone?inputBorderErrorsStyle:null} {...register("phone")}  placeholder={"Enter your Phone"}/>
+                                <input type="number" className="form-control"     style={errors.phone?inputBorderErrorsStyle:null} {...register("phone")}  placeholder={"Enter your Phone"}/>
                                 <p style={errorsStyle}>{errors.phone?.message}</p>
                             </div>
 

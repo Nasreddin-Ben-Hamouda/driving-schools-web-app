@@ -18,7 +18,7 @@ const schema = yup.object().shape({
     cin:yup.string().matches(reg,"cin must be a number").required().length(8),
     cinDate:yup.string().required("cin date is a required field"),
     email:yup.string().email().required(),
-    phone:yup.string().required().min(8).max(13),
+    phone:yup.string().required().min(8).max(12),
     address:yup.string().min(5).max(255),
     postalCode:yup.string().matches(reg,"zip code must be a number").min(4,"zip code must be at least 4 characters").max(10,"zip code must be at most 10 characters"),
     birthday:yup.string().required()

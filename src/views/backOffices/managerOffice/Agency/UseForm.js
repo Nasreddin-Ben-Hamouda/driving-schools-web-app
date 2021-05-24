@@ -24,10 +24,9 @@ const schema = yup.object().shape({
     taxRegistrationDate:yup.string().required("tax registration date is a required field")
 
 });
-const UseForm = ({onSubmit,preloadedValues,loading}) => {
+const UseForm = ({onSubmit,loading}) => {
 
     const { register, handleSubmit, formState:{ errors } } = useForm({
-        defaultValues:preloadedValues,
         resolver: yupResolver(schema)
     });
 

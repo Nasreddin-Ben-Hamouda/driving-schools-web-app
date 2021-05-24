@@ -5,15 +5,20 @@ import { CSSTransition } from "react-transition-group";
 
 
 import * as S from "./styles";
-
+import * as actions from "../../../store/actions/common/User";
+import {useDispatch, useSelector} from "react-redux";
+import {useHistory} from "react-router-dom"
 const SvgIcon = lazy(() => import("../UI/SvgIcon"));
 const Button = lazy(() => import("../UI/Button"));
 
 const Header = (props) => {
+  const dispatch=useDispatch();
+  const history=useHistory()
+  const user=useSelector(state=>state.user.user);
+  const authToken=useSelector(state=>state.user.authToken);
   const [isNavVisible] = useState(false);
   const [isSmallScreen] = useState(false);
   const [visible, setVisibility] = useState(false);
-  const [auth,setAuth]=useState(false)
 
   const showDrawer = () => {
     setVisibility(!visible);
@@ -31,10 +36,16 @@ const Header = (props) => {
       });
       setVisibility(false);
     };
+    let path="/";
+    if(user && user.role==="ADMIN"){
+      path="/administrator"
+    }else{
+      path="/companies"
+    }
     const menu = (
         <Menu>
-            <Menu.Item><BankFilled/>Companies</Menu.Item>
-            <Menu.Item><LogoutOutlined/> Logout</Menu.Item>
+            <Menu.Item onClick={()=>history.push({pathname:path})}><BankFilled/>Your space</Menu.Item>
+            <Menu.Item onClick={()=>{dispatch(actions.logout());history.push({pathname:"/"})}}><LogoutOutlined/> Logout</Menu.Item>
         </Menu>
     );
     return (
@@ -55,12 +66,12 @@ const Header = (props) => {
             Contact
           </S.Span>
         </S.CustomNavLinkSmall>
-          {auth ?
+          {user && authToken ?
               <Dropdown overlay={menu}>
                 <S.CustomNavLinkSmall style={{ width: "180px" }}>
                   <Button className="ant-dropdown-link" color="#fff">
                     <UserOutlined />
-                    <S.Span style={{marginLeft:"10%"}}>Nasr Eddine </S.Span>
+                    <S.Span style={{marginLeft:"10%"}}>{user.fullName}</S.Span>
                   </Button>
                 </S.CustomNavLinkSmall>
               </Dropdown>

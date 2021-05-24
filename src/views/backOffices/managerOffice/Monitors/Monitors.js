@@ -16,9 +16,9 @@ import axios from "../../../../axios/scheduling-service";
 import cogoToast from "cogo-toast";
 import { Popconfirm } from 'antd';
 import "antd/dist/antd.css";
-const agencyId="606f0dc7e3bf6a72dd524d4f";
+import {useSelector} from "react-redux";
 const Monitors = (props) => {
-
+    const agencyId=useSelector(state=>state.user.user.agency);
     const [monitors, setMonitors] = useState(null);
     const [details, setDetails] = useState([]);
     const [formUpdate, setFormUpdate] = useState(null);

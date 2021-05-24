@@ -28,7 +28,7 @@ import logo from "../../../assets/frontOffice/img/svg/logo.png";
 const TheHeader = (props) => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector(state => state.global.sidebarShow);
-
+  const user=useSelector(state =>state.user.user)
   const toggleSidebar = () => {
     const val = [true, 'responsive'].includes(sidebarShow) ? false : 'responsive'
     dispatch(actions.sidebarShow(val))
@@ -64,25 +64,25 @@ const TheHeader = (props) => {
       <CHeaderNav className="d-md-down-none mr-auto">
 
         <CHeaderNavItem className="px-3" >
-          <CHeaderNavLink to={"/companies/"+props.id+"/dashboard"}>
+          <CHeaderNavLink to={"/companies/"+(user.agency?user.agency:0)+"/dashboard"}>
               <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>
               Dashboard
           </CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem  className="px-3">
-          <CHeaderNavLink to={"/companies/"+props.id+"/customers"}>
+          <CHeaderNavLink to={"/companies/"+(user.agency?user.agency:0)+"/customers"}>
               <CIcon name="cilPeople" customClasses="c-sidebar-nav-icon"/>
               Customers
           </CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to={"/companies/"+props.id+"/sessions"}>
+          <CHeaderNavLink to={"/companies/"+(user.agency?user.agency:0)+"/sessions"}>
               <CIcon name="cilAvTimer" customClasses="c-sidebar-nav-icon"/>
               Sessions
           </CHeaderNavLink>
         </CHeaderNavItem>
           <CHeaderNavItem className="px-3">
-              <CHeaderNavLink to={"/companies/"+props.id+"/exams"}>
+              <CHeaderNavLink to={"/companies/"+(user.agency?user.agency:0)+"/exams"}>
                   <CIcon name="cilFile" customClasses="c-sidebar-nav-icon"/>
                   Exams
               </CHeaderNavLink>
@@ -90,7 +90,8 @@ const TheHeader = (props) => {
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
-        <TheHeaderDropdown id={props.id}/>
+
+        <TheHeaderDropdown  avatar={user.avatar} fullName={user.fullName} {...props}/>
       </CHeaderNav>
 
       <CSubheader className="px-3 justify-content-between">
@@ -103,12 +104,12 @@ const TheHeader = (props) => {
             <CLink
               className="c-subheader-nav-link"
               aria-current="page"
-              to={"/companies/"+props.id+"/dashboard"}
+              to={"/companies/"+(user.agency?user.agency:0)+"/dashboard"}
             >
               <CIcon name="cil-graph" alt="Dashboard" href="#"/>&nbsp;Dashboard
             </CLink>
             <CLink className="c-subheader-nav-link" aria-current="page"
-                   to={"/companies/"+props.id+"/settings"} >
+                   to={"/companies/"+(user.agency?user.agency:0)+"/settings"} >
               <CIcon name="cil-settings" alt="Settings" />&nbsp;Settings
             </CLink>
           </div>

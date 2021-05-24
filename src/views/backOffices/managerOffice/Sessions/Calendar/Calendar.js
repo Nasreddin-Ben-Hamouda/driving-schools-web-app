@@ -13,11 +13,11 @@ import {
 } from "@coreui/react";
 import Accordions from "./Accordions";
 import axios from "../../../../../axios/scheduling-service";
+import {useSelector} from "react-redux";
 
 
-const agencyId="606f0dc7e3bf6a72dd524d4f";
 const Calendar=()=>{
-
+        const agencyId=useSelector(state=>state.user.user.agency);
         const [visible, setVisible] = useState(false);
         const [events,setEvents]=useState([]);
         const [date,setDate]=useState(null)

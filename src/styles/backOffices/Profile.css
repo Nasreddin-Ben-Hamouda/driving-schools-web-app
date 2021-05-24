@@ -1,0 +1,28 @@
+
+
+
+.header {
+    background-image: url("../../assets/backOffices/img/illustrations/cover1.jpg");
+    background-repeat: no-repeat;
+    background-size:contain;
+    text-align: center;
+    border-radius: 20px;
+    height: 75%;
+
+}
+
+.img {
+    border: solid white 4px;
+    border-radius: 100px;
+    margin-top:16%;
+    width:160px;
+    height:160px
+}
+
+.fileAdd{
+    margin-left: 53%;
+}
+
+
+
+
