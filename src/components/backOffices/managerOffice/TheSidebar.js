@@ -19,12 +19,13 @@ import logo from "../../../assets/logo.png"
 const TheSidebar = (props) => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.global.sidebarShow)
+  const user = useSelector(state => state.user.user)
   return (
     <CSidebar
       show={show}
       onShowChange={(val) => dispatch(actions.sidebarShow(val))}
     >
-      <CSidebarBrand className="d-md-down-none"  to={"/companies/"+props.id}>
+      <CSidebarBrand className="d-md-down-none"  to={"/companies/"+(user.agency?user.agency:0)}>
         <CImg className="c-sidebar-brand-full"
             src={logo}
             alt=""
@@ -41,7 +42,7 @@ const TheSidebar = (props) => {
       <CSidebarNav>
 
         <CCreateElement
-          items={navigation(props.id)}
+          items={navigation(user.agency?user.agency:0)}
           components={{
             CSidebarNavDivider,
             CSidebarNavDropdown,

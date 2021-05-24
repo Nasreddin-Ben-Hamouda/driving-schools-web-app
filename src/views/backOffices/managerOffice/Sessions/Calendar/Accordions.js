@@ -7,6 +7,7 @@ import {Popconfirm} from "antd";
 import "antd/dist/antd.css";
 import axios from "../../../../../axios/scheduling-service";
 import cogoToast from "cogo-toast";
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const agencyId="606f0dc7e3bf6a72dd524d4f";
+
 const Accordions=(props)=> {
+    const agencyId=useSelector(state=>state.user.user.agency);
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const [sessions, setSessions] = useState(null);

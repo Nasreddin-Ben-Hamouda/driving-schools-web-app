@@ -5,21 +5,24 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import DividerWithText from "../../../../components/frontOffice/UI/DividerWithText/DividerWithText";
 import img from "../../../../assets/backOffices/img/illustrations/business_deal.svg"
 import googleSVG from "../../../../assets/backOffices/img/logos/google.svg"
-
+import axios from "../../../../axios/login-register-auth-service"
+import cogoToast from "cogo-toast";
+import withErrorHandler from "../../../../hoc/backOffices/withErrorHandler";
 const Register=(props)=>{
     const [useForm,setForm] = useState({
         fullName: "",
         email: "",
         password: "",
+        phone: "",
         agreement: true,
         loading:false
     })
-    let { fullName, email, password,agreement,loading } = useForm;
-    let timer=null;
+    let { fullName, email, password,phone,agreement,loading } = useForm;
+
 
     useEffect(()=>{
         return ()=>{
-            clearTimeout(timer)
+            //clearTimeout(timer)
         }
     },[])
     const handleChange = event => {
@@ -42,15 +45,27 @@ const Register=(props)=>{
                 ...useForm,
                 loading: true
             })
-            timer=setTimeout(()=>{
-                setForm({
-                    ...useForm,
-                    loading: false
+            let user={
+                fullName:useForm.fullName,
+                email:useForm.email,
+                password:useForm.password,
+                phone:useForm.phone,
+            };
+            axios.post('/user',user)
+                .then(()=>{
+                    setForm({
+                        ...useForm,
+                        loading: false
+                    });
+                    props.close();
+                    cogoToast.warn("You are registered successfully now you should confirm your account", {position: "top-right"})
                 })
-            },5000)
-
-            //this.props.loginWithEmailAndPassword({ ...this.state });
-            console.log('Register')
+                .catch(()=>{
+                    setForm({
+                        ...useForm,
+                        loading: false
+                    })
+                })
         }
 
     };
@@ -118,12 +133,29 @@ const Register=(props)=>{
                                         name="password"
                                         type="password"
                                         value={password}
-                                        validators={["required","minStringLength: 7","maxStringLength: 15"]}
+                                        validators={["required","minStringLength: 7","maxStringLength: 20"]}
                                         errorMessages={
                                             [
                                                 "this field is required",
                                                 "this field must be longer than 6 characters",
                                                 "this field must not exceed 15 characters"
+                                            ]
+                                        }
+                                    />
+                                    <TextValidator
+                                        className="mb-4 w-full"
+                                        label="Phone"
+                                        variant="outlined"
+                                        onChange={handleChange}
+                                        name="phone"
+                                        type="number"
+                                        value={phone}
+                                        validators={["required","minStringLength: 8","maxStringLength: 12"]}
+                                        errorMessages={
+                                            [
+                                                "this field is required",
+                                                "this field must be longer than 8 characters",
+                                                "this field must not exceed 12 characters"
                                             ]
                                         }
                                     />
@@ -144,7 +176,7 @@ const Register=(props)=>{
                                         >
                                             Sign up
                                                {loading && (
-                                                   <CircularProgress style={{marginLeft:"10px",color:"#2e186a"}}
+                                                   <CircularProgress style={{marginLeft:"10px",color:"white"}}
 
                                                        size={20}
                                                    />
@@ -177,4 +209,4 @@ const Register=(props)=>{
     loginWithEmailAndPassword: PropTypes.func.isRequired,
     login: state.login
 });*/
-export default Register;
+export default withErrorHandler(Register,axios);

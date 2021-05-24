@@ -1,11 +1,14 @@
 import React,{useState,useRef,useEffect,Fragment} from "react";
 import "../../../../styles/frontOffice/Auth/_app.scss";
-import { Checkbox, FormControlLabel,Grid,Button,Chip} from "@material-ui/core";
+import {Checkbox, FormControlLabel, Grid, Button, Chip, CircularProgress} from "@material-ui/core";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import DividerWithText from "../../../../components/frontOffice/UI/DividerWithText/DividerWithText";
 import img from "../../../../assets/frontOffice/img/illustartions/posting_photo.svg"
 import googleSVG from "../../../../assets/backOffices/img/logos/google.svg"
-
+import {useDispatch, useSelector} from "react-redux";
+import * as actions from "../../../../store/actions/common/User";
+import axios from "../../../../axios/login-register-auth-service"
+import withErrorHandler from "../../../../hoc/backOffices/withErrorHandler";
 const Login=(props)=>{
     const [useForm,setForm] = useState({
         email: "",
@@ -13,6 +16,10 @@ const Login=(props)=>{
         remember: false
     })
     let { email, password ,remember} = useForm;
+    const dispatch = useDispatch()
+    const loading = useSelector(state => state.user.loading)
+
+
     const handleChange = event => {
            event.persist();
            if(event.target.name==="remember"){
@@ -28,44 +35,11 @@ const Login=(props)=>{
            }
 
     };
-    const handleFormSubmit = event => {
-        const redirectUri = 'http://localhost:3000'; // redirect url should be a page where extractToken is called
-        const email =  'ahmedbenyahiass@gmail.com';
-        const password = '6LggH^f6xQ5QW4a';
-            let webAuth = new auth0.WebAuth({
-                domain: 'sayto.eu.auth0.com',
-                clientID: 'd8Q6NjdtQt69KHypYoZiW2AeQRA5O9Cz',
-                responseType: 'token id_token',
-                audience: 'http://localhost:3004',
-                // redirectUri: 'http://localhost:63342/AE/auth-service/helper/login.html?_ijt=hekuomjsk086gr4fllscbs76o9/callback',
-                redirectUri ,
-            });
-            webAuth.login({
-                realm: 'Username-Password-Authentication',
-                email,
-                password,
-            });
-        function extractToken() {
-            webAuth.parseHash({hash: window.location.hash}, function (err, authResult) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log(authResult)
-
-                webAuth.client.userInfo(authResult.accessToken, function (err, user) {
-                    // Now you have the user's information
-                    console.log(user)
-                });
-            });
-        }
-
-        login(redirectUri, email, password)
-            //this.props.loginWithEmailAndPassword({ ...this.state });
-            console.log('login')
+    const handleFormSubmit = ()=> {
+        dispatch(actions.login(useForm.email,useForm.password));
 
     };
         return (
-
                         <Grid container>
                             <Grid item lg={5} md={5} sm={5} xs={12}>
 
@@ -140,6 +114,12 @@ const Login=(props)=>{
                                                 type="submit"
                                             >
                                                 Sign in
+                                                {loading && (
+                                                    <CircularProgress style={{marginLeft:"10px",color:"white"}}
+
+                                                                      size={20}
+                                                    />
+                                                )}
                                             </Button>
                                             <span className="mx-2 ml-5">or</span>
                                             <Button
@@ -164,8 +144,4 @@ const Login=(props)=>{
 
 }
 
-/*const mapStateToProps = state => ({
-    loginWithEmailAndPassword: PropTypes.func.isRequired,
-    login: state.login
-});*/
-export default Login;
+export default withErrorHandler(Login,axios);

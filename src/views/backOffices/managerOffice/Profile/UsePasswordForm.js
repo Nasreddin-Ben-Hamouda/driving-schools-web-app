@@ -20,9 +20,9 @@ const schema = yup.object().shape({
         .min(8,"new password must be at least 8 characters")
         .max(255,"new password must be at most 255 characters"),
     confirmPassword:yup.string()
-        .required("confirm password is a required field")
-        .min(8,"confirm password must be at least 8 characters")
-        .max(255,"confirm password must be at most 255 characters"),
+        .oneOf([yup.ref('newPassword'), null], "passwords don't match")
+        .required('confirm password is a required field')
+
 
 });
 const UsePasswordForm = ({onSubmit,loading}) => {

@@ -5,6 +5,11 @@ export default httpClient => {
 
     const reqInterceptor = httpClient.interceptors.request.use(req => {
         setError(null);
+        if(localStorage.getItem('authToken')){
+            req.headers={
+                'Authorization': `token ${localStorage.getItem('authToken')}`
+            }
+        }
         return req;
     });
     const resInterceptor = httpClient.interceptors.response.use(

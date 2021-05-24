@@ -12,8 +12,18 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import userImg from '../../../assets/backOffices/img/user.png'
-
+import subscriptionBaseUrl from "../../../helpers/subscription_service_base_url";
+import {useDispatch,useSelector} from "react-redux"
+import * as actions from "../../../store/actions/common/User"
 const TheHeaderDropdown = (props) => {
+  const dispatch=useDispatch()
+  const user = useSelector(state => state.user.user)
+  let img=null;
+  if(props.avatar){
+    img=subscriptionBaseUrl+"/storage/avatars/"+props.avatar;
+  }else{
+    img=userImg;
+  }
   return (
     <CDropdown
       inNav
@@ -21,21 +31,27 @@ const TheHeaderDropdown = (props) => {
       direction="down"
     >
       <CDropdownToggle className="c-header-nav-link" caret={false}>
-        <div className="c-avatar">
+        <div className="c-avatar" >
           <CImg
-            src={userImg}
+            src={img}
             className="c-avatar-img"
-            alt="admin@bootstrapmaster.com"
+            style={{width:"36px",
+              height:"36px"}}
           />
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownItem to={`/companies/${props.id}/Profile`}>
+        <CDropdownItem>
+          <CIcon name="cilCheck" className="mfe-2" />
+          {props.fullName}
+        </CDropdownItem>
+        <CDropdownItem divider />
+        <CDropdownItem to={`/companies/${(user.agency?user.agency:0)}/profile`}>
           <CIcon name="cil-user" className="mfe-2" />
            Profile
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem to={`/companies/${props.id}/Profile`}>
+        <CDropdownItem onClick={()=>{dispatch(actions.logout());props.history.push({pathname:"/"})}}>
           <CIcon name="cil-lock-locked" className="mfe-2" />
               Logout
         </CDropdownItem>

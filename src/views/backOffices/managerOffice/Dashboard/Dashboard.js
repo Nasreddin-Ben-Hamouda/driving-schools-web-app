@@ -14,8 +14,10 @@ import {
 import CIcon from '@coreui/icons-react'
 import axios from "../../../../axios/scheduling-service";
 import withErrorHandler from "../../../../hoc/backOffices/withErrorHandler";
-const agencyId="606f0dc7e3bf6a72dd524d4f";
+import {useSelector} from "react-redux";
+
 const Dashboard = () => {
+  const agencyId=useSelector(state=>state.user.user.agency);
   const [statistics, setStatistics] = useState(null);
   useEffect(() => {
     getStatistics()

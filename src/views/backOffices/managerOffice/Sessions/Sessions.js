@@ -15,11 +15,10 @@ import UseFormUpdate from "./UseFormUpdate";
 import cogoToast from "cogo-toast";
 import { Popconfirm } from 'antd';
 import "antd/dist/antd.css";
-import subAxios from "../../../../axios/subscription-service";
-import schAxios from "../../../../axios/scheduling-service";
-const agencyId="606f0dc7e3bf6a72dd524d4f";
+import axios from "../../../../axios/scheduling-service";
+import {useSelector} from "react-redux";
 const Sessions = (props) => {
-
+    const agencyId=useSelector(state=>state.user.user.agency);
     const [sessions, setSessions] = useState(null);
     const [details, setDetails] = useState([]);
     const [formUpdate, setFormUpdate] = useState(null);
@@ -36,7 +35,7 @@ const Sessions = (props) => {
         getCars()
     }, []);
     const getAllSessions = () => {
-        schAxios.get('/session/' + agencyId)
+        axios.get('/session/' + agencyId)
             .then((response) => {
                 setSessions(response.data);
             })
@@ -45,7 +44,7 @@ const Sessions = (props) => {
             })
     }
     const getClients = () => {
-        subAxios.get('/client/' + agencyId)
+        axios.get('/session/clients/' + agencyId)
             .then((response) => {
                 setClients(response.data);
             })
@@ -54,7 +53,7 @@ const Sessions = (props) => {
             })
     }
     const getMonitors = () => {
-        schAxios.get('/monitor/' + agencyId)
+        axios.get('/monitor/' + agencyId)
             .then((response) => {
                 setMonitors(response.data);
             })
@@ -63,7 +62,7 @@ const Sessions = (props) => {
             })
     }
     const getCars = () => {
-        schAxios.get('/car/' + agencyId)
+        axios.get('/car/' + agencyId)
             .then((response) => {
                 setCars(response.data);
             })
@@ -128,7 +127,7 @@ const Sessions = (props) => {
             agency: agencyId
         }
         console.log(data)
-        schAxios.post('/session/reserve', data)
+        axios.post('/session/reserve', data)
             .then(() => {
                 setLoading(false)
                 cogoToast.success("Session reserved successfully", {position: "top-right"})
@@ -154,7 +153,7 @@ const Sessions = (props) => {
         delete data._id;
         delete data.__v;
         delete data.isPayed;
-        schAxios.patch('/session/update/' + id, data)
+        axios.patch('/session/update/' + id, data)
             .then(() => {
                 setLoading(false)
                 cogoToast.success("Exam updated successfully", {position: "top-right"})
@@ -193,7 +192,7 @@ const Sessions = (props) => {
         const data = {
             agency: agencyId
         }
-        schAxios.delete('/session/reject/' + id, {data: data})
+        axios.delete('/session/reject/' + id, {data: data})
             .then(() => {
                 cogoToast.success("Exam deleted successfully", {position: "top-right"})
                 getAllSessions()
@@ -208,7 +207,7 @@ const Sessions = (props) => {
         const data = {
             agency: agencyId
         }
-        schAxios.patch('/session/cancel/' + id, data)
+        axios.patch('/session/cancel/' + id, data)
             .then(() => {
                 cogoToast.success("Session canceled successfully", {position: "top-right"})
                 getAllSessions()
@@ -222,7 +221,7 @@ const Sessions = (props) => {
         const data = {
             agency: agencyId
         }
-        schAxios.patch('/session/finish/' + id, data)
+        axios.patch('/session/finish/' + id, data)
             .then(() => {
                 cogoToast.success("Session finished successfully", {position: "top-right"})
                 getAllSessions()
@@ -236,7 +235,7 @@ const Sessions = (props) => {
         const data = {
             agency: agencyId
         }
-        schAxios.patch('/session/paid/' + id, data)
+        axios.patch('/session/paid/' + id, data)
             .then(() => {
                 cogoToast.success("Session paid successfully", {position: "top-right"})
                 getAllSessions()
@@ -415,4 +414,4 @@ const Sessions = (props) => {
     )
 }
 
-export default withErrorHandler(Sessions,schAxios);
+export default withErrorHandler(Sessions,axios);

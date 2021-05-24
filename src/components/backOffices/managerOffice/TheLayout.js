@@ -10,13 +10,14 @@ import {
 import '../../../styles/backOffices/style.scss';
 React.icons = icons
 const TheLayout = (props) => {
+
   return (
     <div className="c-app c-default-layout">
-      <TheSidebar id={props.match.params.id} {...props}/>
+      <TheSidebar  {...props}/>
       <div className="c-wrapper">
-        <TheHeader id={props.match.params.id} {...props}/>
+        <TheHeader  {...props}/>
         <div className="c-body">
-            <TheContent id={props.match.params.id} {...props}/>
+            <TheContent {...props}/>
         </div>
         <TheFooter/>
       </div>

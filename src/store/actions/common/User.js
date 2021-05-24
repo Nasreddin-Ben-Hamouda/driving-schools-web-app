@@ -1,6 +1,7 @@
-import axios from "../../../axios-instance"
+import axios from "../../../axios/auth-service"
+import axiosLogin from "../../../axios/login-register-auth-service"
 import * as actionTypes from "./actionTypes"
-
+import cogoToast from "cogo-toast";
 
 export const loginStart = () => {
     return {
@@ -8,86 +9,91 @@ export const loginStart = () => {
     };
 };
 
-export const loginSuccess = (user) => {
+export const loginSuccess = (user,authToken,redirect) => {
     return {
         type: actionTypes.LOGIN_SUCCESS,
-        userData:user
+        user:user,
+        authToken:authToken,
+        redirect:redirect
     };
 };
 
-export const loginFail = (error) => {
+export const loginFail = () => {
     return {
         type: actionTypes.LOGIN_FAIL,
-        error: error
     };
 };
+export const authFinish = () => {
+    return {
+        type: actionTypes.AUTH_FINISH,
+    };
+};
+export const takeReadyTrue=()=>{
+    return {
+        type: actionTypes.TAKE_READY_TRUE,
+    };
+}
+export const takeReadyFalse=()=>{
+    return {
+        type: actionTypes.TAKE_READY_FALSE,
+    };
+}
+
+export const updateUser=(user)=>{
+    return {
+        type: actionTypes.UPDATE_USER,
+        user:user
+    };
+}
 
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('authToken');
     return {
         type: actionTypes.AUTH_LOGOUT
     };
+
 };
 
-export const checkAuthTimeout = (expirationTime) => {
-    return dispatch => {
-        setTimeout(() => {
-            dispatch(refreshToken());
-        }, expirationTime * 1000);
-    };
-};
-
-export const refreshToken=()=>{
-   //sent http request for refreshing the token
-    //add some logic here
-}
 export const loginWithGoogle=()=>{
-    //sent http request for refreshing the token
     //add some logic here
 }
 export const login = (email, password) => {
     return dispatch => {
         dispatch(loginStart());
-        const authData = {
+        const data = {
             email: email,
             password: password
         };
-        axios.post('/login', authData)
+        axiosLogin.post('/auth/login', data)
             .then(response => {
-                console.log(response);
-                const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
-                localStorage.setItem('token', response.data.idToken);
-                localStorage.setItem('expirationDate', expirationDate);
-                localStorage.setItem('userId', response.data.localId);
-                dispatch(authSuccess(response.data.idToken, response.data.localId));
-                dispatch(checkAuthTimeout(response.data.expiresIn));
+                localStorage.setItem('authToken', response.data.authToken);
+                dispatch(
+                    loginSuccess(
+                        response.data.user,
+                        response.data.authToken,
+                        response.data.user.role==="ADMIN"?"/administrator":"/companies"));
             })
             .catch(err => {
-                dispatch(loginFail(err.response.data.error));
+                dispatch(loginFail());
             });
     };
 };
-export const authCheckState = () => {
-    return dispatch => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            dispatch(logout());
-        } else {
-            const expirationDate = new Date(localStorage.getItem('expirationDate'));
-            if (expirationDate <= new Date()) {
-                dispatch(refreshToken());
+
+export const getAuthenticatedUser = () => {
+    return (dispatch) => {
+            dispatch(takeReadyFalse())
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                dispatch(logout());
             } else {
-                const userId = localStorage.getItem('userId');
-                const username=localStorage.getItem('username');
-                const user={
-                    userId:userId,
-                    username:username,
-                    expirationDate:expirationDate
-                }
-                dispatch(loginSuccess(user));
-                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
+                axios.get('/auth/whoami')
+                    .then((response) => {
+                        dispatch(loginSuccess(response.data,authToken,null));
+                        dispatch(takeReadyTrue())
+                    })
+
+
             }
-        }
+
     };
 };
