@@ -8,23 +8,23 @@ import {
 
 } from '@coreui/react'
 import {
-  CChartLine,
+  CChartPie,
 
 } from '@coreui/react-chartjs'
 import CIcon from '@coreui/icons-react'
-import axios from "../../../../axios/scheduling-service";
+import axios from "../../../../axios/subscription-service";
 import withErrorHandler from "../../../../hoc/backOffices/withErrorHandler";
 import {useSelector} from "react-redux";
+import {cilArrowRight, cilBan, cilCheckCircle} from "@coreui/icons";
 
 const Dashboard = () => {
-  const agencyId=useSelector(state=>state.user.user.agency);
   const [statistics, setStatistics] = useState(null);
   useEffect(() => {
     getStatistics()
   }, []);
 
   const getStatistics = () => {
-    axios.get('/statistic/' + agencyId)
+    axios.get('/admin/statistics')
         .then((response) => {
           setStatistics(response.data);
         })
@@ -36,44 +36,44 @@ const Dashboard = () => {
               <>
                 <CCardGroup className="mb-4">
                   <CWidgetProgressIcon
-                      header={statistics.countOfCustomers.toString()}
+                      header={statistics.countOfUsers.toString()}
                       text="Users"
                       color="gradient-info"
-                      value={statistics.countOfCustomers * 100 / 100}
+                      value={statistics.countOfUsers * 100 / 100}
                   >
                     <CIcon name="cil-people" height="36"/>
                   </CWidgetProgressIcon>
                   <CWidgetProgressIcon
-                      header={statistics.countOfMonitors.toString()}
-                      text="Monitors"
+                      header={statistics.countOfUsersActive.toString()}
+                      text="Active Users"
                       color="gradient-success"
-                      value={statistics.countOfMonitors * 100 / 100}
+                      value={statistics.countOfUsersActive * 100 / 100}
                   >
-                    <CIcon name="cilListRich" height="36"/>
+                    <CIcon name="cilCheck" height="36"/>
                   </CWidgetProgressIcon>
                   <CWidgetProgressIcon
-                      header={statistics.countOfCars.toString()}
-                      text="Cars"
-                      color="gradient-warning"
-                      value={statistics.countOfCars * 100 / 100}
-                  >
-                    <CIcon name="cilGarage" height="36"/>
-                  </CWidgetProgressIcon>
-                  <CWidgetProgressIcon
-                      header={statistics.countOfExams.toString()}
-                      text="Exams"
-                      color="gradient-primary"
-                      value={statistics.countOfExams * 100 / 100}
-                  >
-                    <CIcon name="cilTask" height="36"/>
-                  </CWidgetProgressIcon>
-                  <CWidgetProgressIcon
-                      header={statistics.countOfSessions.toString()}
-                      text="Session"
+                      header={statistics.countOfUsersSuspended.toString()}
+                      text="Suspended Users"
                       color="gradient-danger"
-                      value={statistics.countOfSessions * 100 / 100}
+                      value={statistics.countOfUsersSuspended * 100 / 100}
                   >
-                    <CIcon name="cilNotes" height="36"/>
+                    <CIcon name="cilBan" height="36"/>
+                  </CWidgetProgressIcon>
+                  <CWidgetProgressIcon
+                      header={statistics.countOfUsersConfirmed.toString()}
+                      text="Confirmed Users"
+                      color="gradient-success"
+                      value={statistics.countOfUsersConfirmed * 100 / 100}
+                  >
+                    <CIcon name="cilCheckCircle" height="36"/>
+                  </CWidgetProgressIcon>
+                  <CWidgetProgressIcon
+                      header={statistics.countOfAgencies.toString()}
+                      text="Agencies"
+                      color="gradient-primary"
+                      value={statistics.countOfAgencies * 100 / 100}
+                  >
+                    <CIcon name="cilBank" height="36"/>
                   </CWidgetProgressIcon>
 
 
@@ -81,28 +81,22 @@ const Dashboard = () => {
 
                 <CCard>
                   <CCardHeader>
-                    Session and Exams Per Month
+                   Count Of Customers Per Agency
                   </CCardHeader>
                   <CCardBody>
-                    <CChartLine
+                    <CChartPie
                         datasets={[
                           {
-                            label: 'Exams',
-                            backgroundColor: 'rgb(228,102,81,0.9)',
-                            data:statistics.examsPerMonth
-                          },
-                          {
-                            label: 'Sessions',
-                            backgroundColor: 'rgb(0,216,255,0.9)',
-                            data: statistics.sessionsPerMonth
+                            backgroundColor: statistics.backgroundColors,
+                            data:statistics.data
                           }
                         ]}
+                        labels={statistics.labels}
                         options={{
                           tooltips: {
                             enabled: true
                           }
                         }}
-                        labels="months"
                     />
                   </CCardBody>
                 </CCard>
