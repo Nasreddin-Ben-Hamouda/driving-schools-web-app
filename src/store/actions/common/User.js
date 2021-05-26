@@ -91,6 +91,9 @@ export const getAuthenticatedUser = () => {
                         dispatch(loginSuccess(response.data,authToken,null));
                         dispatch(takeReadyTrue())
                     })
+                    .catch(()=>{
+                        dispatch(takeReadyTrue())
+                    })
 
 
             }
