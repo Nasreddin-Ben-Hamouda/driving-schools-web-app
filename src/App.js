@@ -36,6 +36,11 @@ function App() {
                             path='/user/confirmation/:tokenId'
                             component={lazy(() => import(`./views/frontOffice/Auth/Confirmation/Confirmation`))}
                         />
+                        <Route
+                            path='/user/resetPassword/:tokenId'
+                            exact
+                            component={lazy(() => import(`./views/frontOffice/Auth/ResetPassword/ResetPassword`))}
+                        />
                         <Route component={lazy(() => import(`./views/common/NotFound/NotFound`))}/>
                     </Switch>
                 )
@@ -51,6 +56,11 @@ function App() {
                         <Route
                             path='/user/confirmation/:tokenId'
                             component={lazy(() => import(`./views/frontOffice/Auth/Confirmation/Confirmation`))}
+                        />
+                        <Route
+                            path='/user/resetPassword/:tokenId'
+                            exact
+                            component={lazy(() => import(`./views/frontOffice/Auth/ResetPassword/ResetPassword`))}
                         />
                         <Redirect from={"/administrator"} to={"/"}/>
                         <Route component={lazy(() => import(`./views/common/NotFound/NotFound`))}/>
@@ -69,6 +79,11 @@ function App() {
                         path='/user/confirmation/:tokenId'
                         exact
                         component={lazy(() => import(`./views/frontOffice/Auth/Confirmation/Confirmation`))}
+                    />
+                    <Route
+                        path='/user/resetPassword/:tokenId'
+                        exact
+                        component={lazy(() => import(`./views/frontOffice/Auth/ResetPassword/ResetPassword`))}
                     />
                     <Redirect from={"/administrator"} to={"/"}/>
                     <Redirect from={"/companies"} to={"/"}/>

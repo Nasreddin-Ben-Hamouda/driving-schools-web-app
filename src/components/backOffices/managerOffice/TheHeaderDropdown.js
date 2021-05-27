@@ -15,6 +15,7 @@ import userImg from '../../../assets/backOffices/img/user.png'
 import subscriptionBaseUrl from "../../../helpers/subscription_service_base_url";
 import {useDispatch,useSelector} from "react-redux"
 import * as actions from "../../../store/actions/common/User"
+import {cilHome} from "@coreui/icons";
 const TheHeaderDropdown = (props) => {
   const dispatch=useDispatch()
   const user = useSelector(state => state.user.user)
@@ -45,6 +46,19 @@ const TheHeaderDropdown = (props) => {
           <CIcon name="cilCheck" className="mfe-2" />
           {props.fullName}
         </CDropdownItem>
+
+        {
+          user.role ==="ADMIN"?
+              <>
+              <CDropdownItem divider />
+              <CDropdownItem to={'/administrator'}>
+                <CIcon name="cilHome" className="mfe-2"  />
+                Administrator space
+              </CDropdownItem>
+              </>
+              :
+              null
+        }
         <CDropdownItem divider />
         <CDropdownItem to={`/companies/${(user.agency?user.agency:0)}/profile`}>
           <CIcon name="cil-user" className="mfe-2" />
