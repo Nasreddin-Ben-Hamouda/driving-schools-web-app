@@ -45,6 +45,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-transition-group": "^4.4.1",
+    "react-use-googlelogin": "^0.12.5",
     "react-vis": "^1.11.7",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",

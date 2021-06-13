@@ -15,6 +15,7 @@ import userImg from '../../../assets/backOffices/img/user.png'
 import subscriptionBaseUrl from "../../../helpers/subscription_service_base_url";
 import {useDispatch,useSelector} from "react-redux"
 import * as actions from "../../../store/actions/common/User"
+import {useGoogleAuth} from "../../../views/frontOffice/Home/GoogleLogin/GoogleAuthProvider";
 const TheHeaderDropdown = (props) => {
   const dispatch=useDispatch()
   const user = useSelector(state => state.user.user)

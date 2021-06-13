@@ -54,8 +54,26 @@ export const logout = () => {
 
 };
 
-export const loginWithGoogle=()=>{
-    //add some logic here
+export const loginWithGoogle=(email,fullName)=>{
+    return dispatch => {
+        dispatch(loginStart());
+        const data = {
+            email: email,
+            fullName: fullName
+        };
+        axiosLogin.post('/auth/social-login', data)
+            .then(response => {
+                localStorage.setItem('authToken', response.data.authToken);
+                dispatch(
+                    loginSuccess(
+                        response.data.user,
+                        response.data.authToken,
+                        response.data.user.role==="ADMIN"?"/administrator":"/companies"));
+            })
+            .catch(err => {
+                dispatch(loginFail());
+            });
+    };
 }
 export const login = (email, password) => {
     return dispatch => {

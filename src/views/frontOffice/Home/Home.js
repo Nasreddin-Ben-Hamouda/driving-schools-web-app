@@ -15,6 +15,8 @@ import {useDispatch,useSelector} from "react-redux";
 import withErrorHandler from "../../../hoc/backOffices/withErrorHandler";
 import axios from "../../../axios/auth-service";
 import cogoToast from 'cogo-toast';
+import { useGoogleAuth } from './GoogleLogin/GoogleAuthProvider';
+
 const ContactFrom = lazy(() => import("../../../components/frontOffice/ContactForm"));
 const ContentBlock = lazy(() => import("../../../components/frontOffice/ContentBlock"));
 const MiddleBlock = lazy(() => import("../../../components/frontOffice/MiddleBlock"));
@@ -24,7 +26,6 @@ const Layout = lazy(() => import("../../../hoc/frontOffice/Layout"));
 const Login=lazy(()=>import('../Auth/Login/Login'))
 const Register=lazy(()=>import('../Auth/Register/Register'))
 const ForgotPassword=lazy(()=>import('../Auth/ForgetPassword/ForgetPassword'))
-
 const Home = (props) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user.user);
@@ -67,6 +68,20 @@ const Home = (props) => {
         const updatedVisible=updateObject(cleanVisible,{[item]:true});
         setVisible(updateObject(visible,updatedVisible));
     }
+    //google signIn
+    const { signIn } = useGoogleAuth();
+    const handleSignInWithGoogle=()=>{
+        signIn()
+            .then((res)=> {
+                if(res){
+                    dispatch(actions.loginWithGoogle(res.profileObj.email,res.profileObj.name));
+
+                }
+            })
+            .catch(()=>console.log('failed'))
+
+    }
+
     return (
         <Layout openModal={showModalHandler}>
                 <Container>
@@ -83,13 +98,13 @@ const Home = (props) => {
                         >
                             {
                                 visible.login?
-                                    <Login close={setModalVisibility} open={showModalHandler}{...props} />
+                                    <Login close={setModalVisibility} open={showModalHandler} googleSigIn={handleSignInWithGoogle} {...props} />
                                     :
                                 null
                             }
                             {
                                 visible.register?
-                                    <Register close={setModalVisibility} open={showModalHandler} {...props}/>
+                                    <Register close={setModalVisibility} open={showModalHandler} googleSigIn={handleSignInWithGoogle} {...props}/>
                                     :
                                     null
                             }

@@ -71,6 +71,7 @@ const ForgotPassword=(props)=> {
                 })
             })
     };
+    const buttonStyle=!loading?{backgroundColor:"#2e186a",color:"white"}: null
 
     return (
         <Layout>
@@ -139,10 +140,10 @@ const ForgotPassword=(props)=> {
 
                                     <div className="flex items-center">
                                         <Button
-                                            style={{backgroundColor:"#2e186a",color:"white"}}
                                             className="capitalize"
                                             variant="contained"
-                                            color="primary"
+                                            style={buttonStyle}
+                                            disabled={loading}
                                             type="submit"
                                         >
                                             Reset
@@ -152,6 +153,7 @@ const ForgotPassword=(props)=> {
                                                                   size={20}
                                                 />
                                             )}
+
                                         </Button>
                                         <span className="mx-2 ml-5">or</span>
                                         <Button

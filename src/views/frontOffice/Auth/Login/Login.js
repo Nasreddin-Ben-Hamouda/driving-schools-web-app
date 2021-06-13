@@ -6,7 +6,6 @@ import DividerWithText from "../../../../components/frontOffice/UI/DividerWithTe
 import img from "../../../../assets/frontOffice/img/illustartions/posting_photo.svg"
 import googleSVG from "../../../../assets/backOffices/img/logos/google.svg"
 import {useDispatch, useSelector} from "react-redux";
-import {useGoogleLogin} from "react-google-login";
 import * as actions from "../../../../store/actions/common/User";
 import axios from "../../../../axios/login-register-auth-service"
 import withErrorHandler from "../../../../hoc/backOffices/withErrorHandler";
@@ -19,20 +18,7 @@ const Login=(props)=>{
     let { email, password ,remember} = useForm;
     const dispatch = useDispatch()
     const loading = useSelector(state => state.user.loading)
-    const googleClientId="155611293360-cgna98el94kb85d5sdopi6ofs2d520ma.apps.googleusercontent.comm";
-    const onGoogleSuccess=(res)=>{
-        console.log("from google success")
-        console.log(res)
-    }
-    const onGoogleFailure=(res)=>{
-        console.log("from google failure")
-        console.log(res)
-    }
 
-    const {sigIn}=useGoogleLogin({
-        clientId:googleClientId,
-
-    })
     const handleChange = event => {
            event.persist();
            if(event.target.name==="remember"){
@@ -52,7 +38,8 @@ const Login=(props)=>{
         dispatch(actions.login(useForm.email,useForm.password));
 
     };
-        return (
+    const buttonStyle=!loading?{backgroundColor:"#2e186a",color:"white"}: null
+    return (
                         <Grid container>
                             <Grid item lg={5} md={5} sm={5} xs={12}>
 
@@ -70,7 +57,7 @@ const Login=(props)=>{
                             <Grid item lg={7} md={7} sm={7} xs={12}>
 
                                 <div className="px-8 pt-8">
-                                    <Button className="mb-6 w-full capitalize" variant="contained" onClick={sigIn}>
+                                    <Button className="mb-6 w-full capitalize" variant="contained" onClick={props.googleSigIn}>
                                             <img src={googleSVG} alt="" style={{width:"6%",height:"6%",marginRight:"4%"}}/>
                                         Sign In With Google
                                     </Button>
@@ -119,10 +106,10 @@ const Login=(props)=>{
                                         />
                                         <div className="flex items-center">
                                             <Button
-                                                style={{backgroundColor:"#2e186a",color:"white"}}
                                                 className="capitalize"
                                                 variant="contained"
-                                                color="primary"
+                                                style={buttonStyle}
+                                                disabled={loading}
                                                 type="submit"
                                             >
                                                 Sign in
@@ -132,6 +119,7 @@ const Login=(props)=>{
                                                                       size={20}
                                                     />
                                                 )}
+
                                             </Button>
                                             <span className="mx-2 ml-5">or</span>
                                             <Button
