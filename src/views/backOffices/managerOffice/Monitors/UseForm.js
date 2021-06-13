@@ -23,7 +23,6 @@ const schema = yup.object().shape({
 
 });
 const UseForm = ({onSubmit,loading}) => {
-
     const { register, handleSubmit, formState:{ errors } } = useForm({
         resolver: yupResolver(schema)
     });

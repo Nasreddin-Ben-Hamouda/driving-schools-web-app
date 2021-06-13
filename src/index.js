@@ -9,23 +9,28 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk';
 import global from './store/reducers/backOffices/global'
 import user from './store/reducers/common/User'
+import { GoogleAuthProvider } from './views/frontOffice/Home/GoogleLogin/GoogleAuthProvider';
 
-
-const composeEnhancers = process.env.NODE_ENV==="development"?window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :null || compose;
+//const composeEnhancers = process.env.NODE_ENV==="development"?window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :null || compose;
 const rootReducer = combineReducers({
     global: global,
     user:user,
 });
-const store = createStore(rootReducer, composeEnhancers(
-    applyMiddleware(thunk)
-));
+// const store = createStore(rootReducer, composeEnhancers(
+//     applyMiddleware(thunk)
+// ));
+const store = createStore(rootReducer,applyMiddleware(thunk));
 ReactDOM.render(
   //<React.StrictMode>
+
     <Provider store={store}>
-      <BrowserRouter>
-          <App />
-      </BrowserRouter>
+        <GoogleAuthProvider>
+          <BrowserRouter>
+              <App />
+          </BrowserRouter>
+        </GoogleAuthProvider>
     </Provider>,
+
 
   //</React.StrictMode>,
   document.getElementById('root')

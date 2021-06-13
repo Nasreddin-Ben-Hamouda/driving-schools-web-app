@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const Accordions=(props)=> {
     const agencyId=useSelector(state=>state.user.user.agency);
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
     const [sessions, setSessions] = useState(null);
     useEffect(() => {
         getAllSessions()

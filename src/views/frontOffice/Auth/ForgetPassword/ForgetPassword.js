@@ -44,6 +44,7 @@ const ForgotPassword=(props)=> {
                 })
             })
     };
+    const buttonStyle=!loading?{backgroundColor:"#2e186a",color:"white"}: null
 
     return (
 
@@ -71,7 +72,13 @@ const ForgotPassword=(props)=> {
                                         ]}
                                     />
                                     <div className="flex items-center">
-                                        <Button className="capitalize" style={{backgroundColor:"#2e186a",color:"white"}} type="submit">
+                                        <Button
+                                            className="capitalize"
+                                            variant="contained"
+                                            style={buttonStyle}
+                                            disabled={loading}
+                                            type="submit"
+                                        >
                                             Reset Password
                                             {loading && (
                                                 <CircularProgress style={{marginLeft:"10px",color:"white"}}
@@ -79,7 +86,9 @@ const ForgotPassword=(props)=> {
                                                                   size={20}
                                                 />
                                             )}
+
                                         </Button>
+
                                         <span className="ml-4 mr-2">or</span>
                                         <Button
                                             className="capitalize"

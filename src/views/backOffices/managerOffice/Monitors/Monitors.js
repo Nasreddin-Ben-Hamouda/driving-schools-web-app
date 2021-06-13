@@ -18,12 +18,12 @@ import { Popconfirm } from 'antd';
 import "antd/dist/antd.css";
 import {useSelector} from "react-redux";
 const Monitors = (props) => {
-    const agencyId=useSelector(state=>state.user.user.agency);
+    const agencyId = useSelector(state => state.user.user.agency);
     const [monitors, setMonitors] = useState(null);
     const [details, setDetails] = useState([]);
     const [formUpdate, setFormUpdate] = useState(null);
     const [visible, setVisible] = useState(false);
-    const [ loading,setLoading]=useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getAllMonitors()
@@ -88,7 +88,7 @@ const Monitors = (props) => {
     }
 
 
-    const onSubmitAddForm = (data,e) => {
+    const onSubmitAddForm = (data, e) => {
         setLoading(true)
         data = {
             ...data,
@@ -138,10 +138,10 @@ const Monitors = (props) => {
 
     const showUpdateForm = (id) => {
         const index = monitors.findIndex((monitor) => monitor._id === id);
-        const monitor={
+        const monitor = {
             ...monitors[index],
-            birthday:monitors[index].birthday.slice(0,10),
-            cinDate: monitors[index].cinDate.slice(0,10)
+            birthday: monitors[index].birthday.slice(0, 10),
+            cinDate: monitors[index].cinDate.slice(0, 10)
         }
         setFormUpdate(monitor)
         setVisible(true)
@@ -149,10 +149,10 @@ const Monitors = (props) => {
 
     const deleteCustomerHandler = (id) => {
 
-        const data={
-            agency:agencyId
+        const data = {
+            agency: agencyId
         }
-        axios.delete('/monitor/' + id,{data:data})
+        axios.delete('/monitor/' + id, {data: data})
             .then(() => {
                 cogoToast.success("Monitor deleted successfully", {position: "top-right"})
                 getAllMonitors()
@@ -163,11 +163,11 @@ const Monitors = (props) => {
             });
     }
 
-    const suspendCustomerHandler=(id)=>{
-        const data={
-            agency:agencyId
+    const suspendCustomerHandler = (id) => {
+        const data = {
+            agency: agencyId
         }
-        axios.put('/monitor/suspended/' + id,data)
+        axios.put('/monitor/suspended/' + id, data)
             .then(() => {
                 cogoToast.success("Monitor suspended successfully", {position: "top-right"})
                 getAllMonitors()
@@ -193,7 +193,8 @@ const Monitors = (props) => {
                             <CModalBody>
                                 {
                                     formUpdate ?
-                                        <UseFormUpdate loading={loading} preloadedValues={formUpdate} onSubmit={onSubmitUpdateForm}/> :
+                                        <UseFormUpdate loading={loading} preloadedValues={formUpdate}
+                                                       onSubmit={onSubmitUpdateForm}/> :
                                         <UseForm loading={loading} onSubmit={onSubmitAddForm}/>
                                 }
                             </CModalBody>
@@ -202,7 +203,7 @@ const Monitors = (props) => {
                             <CCardHeader>
                                 <CButton style={{float: "right"}} color="info"
                                          onClick={() => setVisible(true)}>
-                                    <AddBoxIcon />
+                                    <AddBoxIcon/>
                                 </CButton>
                             </CCardHeader>
                             <CCardBody>
@@ -258,14 +259,16 @@ const Monitors = (props) => {
                                                                      onClick={() => showUpdateForm(item._id)}>
                                                                 Edit
                                                             </CButton>
-                                                            <Popconfirm title="Are you sure？" okText="Yes" onConfirm={() => deleteCustomerHandler(item._id)}
+                                                            <Popconfirm title="Are you sure？" okText="Yes"
+                                                                        onConfirm={() => deleteCustomerHandler(item._id)}
                                                                         cancelText="No">
 
                                                                 <CButton size="sm" color="danger" className="ml-1">
                                                                     Delete
                                                                 </CButton>
                                                             </Popconfirm>
-                                                            <Popconfirm title="Are you sure？" okText="Yes" onConfirm={() => suspendCustomerHandler(item._id)}
+                                                            <Popconfirm title="Are you sure？" okText="Yes"
+                                                                        onConfirm={() => suspendCustomerHandler(item._id)}
                                                                         cancelText="No">
 
                                                                 <CButton size="sm" color="warning" className="ml-1">
