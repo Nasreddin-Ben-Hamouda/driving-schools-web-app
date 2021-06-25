@@ -31,6 +31,11 @@ The [Backend](https://github.com/SlaySayto/AE) is created with NodeJs in another
 + [AWS S3](https://aws.amazon.com/s3/) for hosting the application
 + [GitHub Action](https://github.com/features/actions) to automate the deployment of the App
 
+## Deployement
+
+The project is build and deployed using github action in s3 every time a new commit in master bransh occure.
+
+![image](https://user-images.githubusercontent.com/16466499/123438022-32f49f80-d5c8-11eb-9692-34df210e279c.png)
 
 
 ## Available Scripts
