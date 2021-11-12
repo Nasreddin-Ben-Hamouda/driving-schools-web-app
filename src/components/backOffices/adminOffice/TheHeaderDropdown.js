@@ -46,19 +46,15 @@ const TheHeaderDropdown = (props) => {
           <CIcon name="cilCheck" className="mfe-2" />
           {props.fullName}
         </CDropdownItem>
-        {
-          user.agency?
-              <>
-                <CDropdownItem divider />
-                <CDropdownItem to={'/companies'}>
-                  <CIcon name="cilBank" className="mfe-2" />
-                  Agency
-                </CDropdownItem>
-              </>
 
-              :
-              null
-        }
+
+        <CDropdownItem divider />
+        <CDropdownItem to={'/companies'}>
+        <CIcon name="cilBank" className="mfe-2" />
+          Agencies space
+        </CDropdownItem>
+
+
         <CDropdownItem divider />
         <CDropdownItem to={`/administrator/profile`}>
           <CIcon name="cil-user" className="mfe-2" />
