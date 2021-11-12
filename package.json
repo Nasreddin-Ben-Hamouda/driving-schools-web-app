@@ -25,6 +25,7 @@
     "antd": "^4.15.3",
     "auth0-js": "^9.16.0",
     "axios": "^0.21.1",
+    "chokidar": "^3.5.2",
     "cogo-toast": "^4.2.3",
     "css-vars-ponyfill": "^2.4.3",
     "dotenv": "^8.2.0",

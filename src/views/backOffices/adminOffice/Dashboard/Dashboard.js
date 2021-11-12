@@ -27,6 +27,7 @@ const Dashboard = () => {
     axios.get('/admin/statistics')
         .then((response) => {
           setStatistics(response.data);
+          console.log(response.data);
         })
   }
   return (

@@ -2,14 +2,13 @@ import React from "react";
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import { Fab } from "@material-ui/core";
 import "../../../../styles/backOffices/Profile.css"
-import subscriptionBaseUrl from "../../../../helpers/subscription_service_base_url"
 import userImg from "../../../../assets/backOffices/img/user.png"
 const UserCard = (props) => {
     let img=null;
     if(props.image){
         img=URL.createObjectURL(props.image)
     }else if(props.avatar){
-       img=subscriptionBaseUrl+"/storage/avatars/"+props.avatar;
+       img=process.env.REACT_APP_SUBSCRIPTION_SERVICE+"/storage/avatars/"+props.avatar;
     }else{
         img=userImg;
     }
