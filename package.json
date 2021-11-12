@@ -27,6 +27,7 @@
     "axios": "^0.21.1",
     "cogo-toast": "^4.2.3",
     "css-vars-ponyfill": "^2.4.3",
+    "dotenv": "^8.2.0",
     "file-saver": "^2.0.5",
     "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
@@ -52,6 +53,7 @@
     "web-vitals": "^1.1.1",
     "yup": "^0.32.9"
   },
+  "proxy": "https://*.amazonaws.com:*",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

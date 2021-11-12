@@ -1,6 +1,42 @@
-# Getting Started with Create React App
+# Driving School managmenet system: Frontend Repo [![Deployment](https://github.com/SlaySayto/driving-schools-web-app/actions/workflows/main.yml/badge.svg)](https://github.com/SlaySayto/driving-schools-web-app/actions/workflows/main.yml)
+[DEMO](http://auto-ecole.tn.s3-website.eu-west-3.amazonaws.com/companies/60b802626730d700090951b2/dashboard)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
+ ## Clean, Beautiful and Responsive management system for driving school
+ ![image](https://drive.google.com/uc?export=view&id=1iWnglYWDYpAVGYVMcQllSMjdlscad4So)
+
+
+
+## About The Project
+
+This project started as an end of study project and was build using Angular and NodeJs. But it wasn't well design and not responsive.
+We decided to re-design the entiere project and use a microserive architecture and Develope the frontend from scratch using ReactJs. For better performance. 
+
+This repo contain the frontend part of the system.\
+The [Backend](https://github.com/SlaySayto/AE) is created with NodeJs in another repo.
+
+## Build With
+
++ [ReactJs](https://reactjs.org/) for view rendering
++ [Redux](https://redux.js.org/) for state managment
++ [Axios](https://www.npmjs.com/package/axios) for making https requests
++ [Material-UI](https://material-ui.com/) for faster and easier web development
++ [Coreui](https://coreui.io/) Bootstrap Admin Template
++ [AWS S3](https://aws.amazon.com/s3/) for hosting the application
++ [GitHub Action](https://github.com/features/actions) to automate the deployment of the App
+
+## Deployement
+
+The project is build and deployed using github action in s3 every time a new commit in master bransh occure.
+
+![image](https://user-images.githubusercontent.com/16466499/123438022-32f49f80-d5c8-11eb-9692-34df210e279c.png)
+
 
 ## Available Scripts
 
@@ -14,58 +50,23 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/SlaySayto/driving-schools-web-app.svg?style=for-the-badge
+[contributors-url]: https://github.com/SlaySayto/driving-schools-web-app/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/SlaySayto/driving-schools-web-app.svg?style=for-the-badge
+[forks-url]: https://github.com/SlaySayto/driving-schools-web-app/network/members
+[stars-shield]: https://img.shields.io/github/stars/SlaySayto/driving-schools-web-app.svg?style=for-the-badge
+[stars-url]: https://github.com/SlaySayto/driving-schools-web-app/stargazers
+[issues-shield]: https://img.shields.io/github/issues/SlaySayto/driving-schools-web-app.svg?style=for-the-badge
+[issues-url]: https://github.com/SlaySayto/driving-schools-web-app/issues
+[license-shield]: https://img.shields.io/github/license/SlaySayto/driving-schools-web-app.svg?style=for-the-badge
+[license-url]: https://github.com/SlaySayto/driving-schools-web-app/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/ahmed-benyahia-ss
+[product-screenshot]: images/screenshot.png
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# driving-school-web-app
